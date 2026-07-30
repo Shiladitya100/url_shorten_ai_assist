@@ -124,3 +124,9 @@ Controllers do not translate application exceptions locally. `GlobalExceptionHan
 Request-body validation is handled with Bean Validation annotations on DTO records. Path-variable validation is enabled with `@Validated` controllers and shared short-code rules. The application only accepts 7-character Base62 short codes on redirect and analytics paths.
 
 Short-code generation also checks reserved route words before returning a candidate. This prevents generated root-level links from colliding with application-owned routes if short-code length changes in the future.
+
+## Logging
+
+The service and exception layers emit application logs for create, redirect, analytics, validation, and handled error flows. Logs intentionally use short codes, counts, statuses, and timestamps instead of full original URLs to reduce accidental sensitive-data exposure.
+
+Current logging is plain Spring Boot logging. Structured JSON logs and request correlation IDs are deferred to production-readiness work.

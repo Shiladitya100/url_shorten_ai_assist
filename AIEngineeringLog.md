@@ -455,3 +455,42 @@ Validation Results:
 - Skipped: 0
 - Static analysis is not configured yet.
 - No secrets or credentials introduced.
+
+## Milestone 11: Logging
+
+Prompt:
+
+- User approved milestone 11 after milestone 10 completion.
+
+Generated Code:
+
+- Added service-layer logging for create, redirect, and analytics flows.
+- Added generation-service logging for reserved, duplicate, successful, and exhausted short-code generation attempts.
+- Added global exception-handler logging for validation, not-found, expired, and generation-failure responses.
+- Added application logging level configuration.
+- Updated README, architecture, engineering decisions, risk analysis, testing strategy, release notes, validation, and AI traceability documentation.
+
+Engineer Modification:
+
+- Pending engineer review.
+
+Rejected Suggestions:
+
+- Did not add request correlation IDs because that requires filter/interceptor design and belongs to production readiness.
+- Did not add structured JSON logging because the current milestone only requires baseline logging.
+- Did not log full original URLs due to sensitive-data exposure risk.
+
+Reason:
+
+- Logging should improve operability without changing runtime behavior or exposing sensitive destination URLs.
+
+Validation Results:
+
+- `mvn clean install` passed.
+- Tests run: 34
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Static analysis is not configured yet.
+- Logging review passed; no full original URLs are logged by the added application log statements.
+- No secrets or credentials introduced.

@@ -14,11 +14,15 @@ import com.schwab.urlshortener.service.ShortCodeGenerationService;
 import com.schwab.urlshortener.service.UrlShorteningService;
 import java.time.Clock;
 import java.time.OffsetDateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UrlShorteningServiceImpl implements UrlShorteningService {
+
+    private static final Logger log = LoggerFactory.getLogger(UrlShorteningServiceImpl.class);
 
     private final ShortCodeGenerationService shortCodeGenerationService;
     private final UrlMappingRepository urlMappingRepository;
@@ -43,6 +47,7 @@ public class UrlShorteningServiceImpl implements UrlShorteningService {
     @Override
     @Transactional
     public ShortUrlResponse createShortUrl(CreateShortUrlRequest request) {
+        log.info("Creating short URL request");
         String shortCode = shortCodeGenerationService.generateUniqueCode();
         OffsetDateTime createdAt = OffsetDateTime.now(clock);
 
@@ -54,33 +59,40 @@ public class UrlShorteningServiceImpl implements UrlShorteningService {
                 .build();
 
         UrlMapping savedMapping = urlMappingRepository.save(mapping);
+        log.info("Created short URL mapping shortCode={} expiresAt={}", shortCode, savedMapping.getExpiresAt());
         return urlMappingMapper.toShortUrlResponse(savedMapping, properties.buildShortUrl(shortCode));
     }
 
     @Override
     @Transactional
     public String resolveRedirectUrl(String shortCode) {
+        log.debug("Resolving redirect shortCode={}", shortCode);
         UrlMapping mapping = urlMappingRepository.findByShortCode(shortCode)
                 .orElseThrow(() -> new UrlMappingNotFoundException(shortCode));
 
         OffsetDateTime accessedAt = OffsetDateTime.now(clock);
         if (mapping.isExpired(accessedAt)) {
+            log.info("Rejected expired redirect shortCode={}", shortCode);
             throw new UrlMappingExpiredException(shortCode);
         }
         if (!mapping.isActive()) {
+            log.info("Rejected inactive redirect shortCode={}", shortCode);
             throw new UrlMappingNotRedirectableException(shortCode);
         }
 
         mapping.recordAccess(accessedAt);
+        log.info("Resolved redirect shortCode={} accessCount={}", shortCode, mapping.getAccessCount());
         return mapping.getOriginalUrl();
     }
 
     @Override
     @Transactional(readOnly = true)
     public UrlAnalyticsResponse getAnalytics(String shortCode) {
+        log.debug("Fetching analytics shortCode={}", shortCode);
         UrlMapping mapping = urlMappingRepository.findByShortCode(shortCode)
                 .orElseThrow(() -> new UrlMappingNotFoundException(shortCode));
 
+        log.info("Fetched analytics shortCode={} accessCount={}", shortCode, mapping.getAccessCount());
         return urlMappingMapper.toAnalyticsResponse(mapping, OffsetDateTime.now(clock));
     }
 }

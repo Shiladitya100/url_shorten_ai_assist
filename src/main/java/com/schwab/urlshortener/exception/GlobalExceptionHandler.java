@@ -7,6 +7,8 @@ import jakarta.validation.ConstraintViolationException;
 import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     private final Clock clock = Clock.systemUTC();
 
@@ -29,6 +33,7 @@ public class GlobalExceptionHandler {
                 .map(fieldError -> new FieldErrorResponse(fieldError.getField(), fieldError.getDefaultMessage()))
                 .toList();
 
+        log.debug("Validation failure path={} fieldErrorCount={}", request.getRequestURI(), fieldErrors.size());
         return buildResponse(
                 HttpStatus.BAD_REQUEST,
                 "Request validation failed",
@@ -50,6 +55,7 @@ public class GlobalExceptionHandler {
                 ))
                 .toList();
 
+        log.debug("Constraint violation path={} fieldErrorCount={}", request.getRequestURI(), fieldErrors.size());
         return buildResponse(
                 HttpStatus.BAD_REQUEST,
                 "Request validation failed",
@@ -60,6 +66,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({UrlMappingNotFoundException.class, UrlMappingNotRedirectableException.class})
     public ResponseEntity<ApiErrorResponse> handleNotFound(RuntimeException exception, HttpServletRequest request) {
+        log.info("Handled not found path={} reason={}", request.getRequestURI(), exception.getMessage());
         return buildResponse(HttpStatus.NOT_FOUND, exception.getMessage(), request.getRequestURI(), List.of());
     }
 
@@ -68,6 +75,7 @@ public class GlobalExceptionHandler {
             UrlMappingExpiredException exception,
             HttpServletRequest request
     ) {
+        log.info("Handled expired mapping path={} reason={}", request.getRequestURI(), exception.getMessage());
         return buildResponse(HttpStatus.GONE, exception.getMessage(), request.getRequestURI(), List.of());
     }
 
@@ -76,6 +84,7 @@ public class GlobalExceptionHandler {
             ShortCodeGenerationException exception,
             HttpServletRequest request
     ) {
+        log.error("Handled short code generation failure path={} reason={}", request.getRequestURI(), exception.getMessage());
         return buildResponse(HttpStatus.SERVICE_UNAVAILABLE, exception.getMessage(), request.getRequestURI(), List.of());
     }
 

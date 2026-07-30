@@ -78,3 +78,9 @@ Milestone 10 adds tests for:
 - Malformed redirect short-code validation.
 - Malformed analytics short-code validation.
 - Reserved generated short-code retry behavior.
+
+Milestone 11 logging validation is primarily review-based:
+
+- Confirm logging does not expose full original URLs.
+- Confirm create, redirect, analytics, validation, and handled error flows have useful log events.
+- Run existing regression tests to ensure logging changes do not alter behavior.

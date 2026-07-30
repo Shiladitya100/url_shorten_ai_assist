@@ -25,6 +25,8 @@
 | Analytics are aggregate only | Product stakeholders may expect per-click history or trend data | Document limitation and revisit event-level analytics only if required |
 | Short-code validation is tied to current code length | Future configurable lengths could break valid requests if validation is not updated | Keep rules centralized in `ShortCodeRules`; update from one place if length changes |
 | Reserved code list may be incomplete | Future top-level routes could still collide with generated short codes | Update reserved list whenever adding new root-level routes |
+| Logs can leak sensitive data | Original URLs may contain identifiers or tokens | Do not log full original URLs; log short code and operational metadata only |
+| Logs lack correlation IDs | Tracing a single request across components is harder | Add request correlation IDs in production-readiness work |
 
 ## Rollback Approach
 

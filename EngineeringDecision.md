@@ -328,3 +328,21 @@ Trade-offs:
 
 - With the current 7-character length, most reserved words are not directly generated.
 - Keeping the guard now makes future code-length changes safer.
+
+## EDR-018: Avoid Logging Full Destination URLs
+
+Status: Accepted
+
+Decision:
+
+Log operational events using short code, status, count, and expiration metadata, but do not log full original URLs.
+
+Rationale:
+
+Original URLs can contain sensitive paths, query strings, identifiers, or tokens. Avoiding full URL logging reduces accidental data exposure while preserving useful operational observability.
+
+Trade-offs:
+
+- Debugging destination-specific issues may require database inspection.
+- Logs remain useful for request flow, failure class, short-code lookup, and analytics counter behavior.
+- Structured logging and correlation IDs are deferred to a later production-readiness milestone.
