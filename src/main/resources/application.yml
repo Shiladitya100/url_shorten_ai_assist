@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: url-shorten-ai-assist
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
