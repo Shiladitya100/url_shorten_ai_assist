@@ -533,31 +533,6 @@ Validation Results:
 - OpenAPI annotations compile and Swagger/OpenAPI endpoints are documented.
 - No secrets or credentials introduced.
 
-## Milestone 13: Docker
-
-Prompt:
-
-- User instructed to skip Milestone 13.
-
-Generated Code:
-
-- None.
-
-Engineer Modification:
-
-- Milestone skipped by engineer decision.
-
-Rejected Suggestions:
-
-- Dockerfile and Docker Compose implementation were not performed.
-
-Reason:
-
-- Human approval explicitly skipped the milestone.
-
-Validation Results:
-
-- Not applicable.
 
 ## Milestone 14: Unit Tests
 
@@ -597,31 +572,6 @@ Validation Results:
 - No production behavior changed.
 - No secrets or credentials introduced.
 
-## Milestone 15: Integration Tests
-
-Prompt:
-
-- User instructed to skip Milestone 15.
-
-Generated Code:
-
-- None.
-
-Engineer Modification:
-
-- Milestone skipped by engineer decision.
-
-Rejected Suggestions:
-
-- End-to-end integration test implementation was not performed.
-
-Reason:
-
-- Human approval explicitly skipped the milestone.
-
-Validation Results:
-
-- Not applicable.
 
 ## Milestone 16: Performance Improvements
 
@@ -662,36 +612,3 @@ Validation Results:
 - Redirect analytics now use an atomic repository update.
 - No secrets or credentials introduced.
 
-## Milestone 17: Security Improvements
-
-Prompt:
-
-- User instructed to skip Milestone 17.
-
-Generated Code:
-
-- None.
-
-Engineer Modification:
-
-- Milestone skipped by engineer decision.
-
-Rejected Suggestions:
-
-- H2 console hardening changes were not performed.
-- Additional security-focused validation and documentation changes were not performed.
-
-Reason:
-
-- Human approval explicitly skipped the milestone.
-
-Validation Results:
-
-- Documentation-only validation passed with `mvn clean install`.
-- Tests run: 43
-- Failures: 0
-- Errors: 0
-- Skipped: 0
-- Static analysis is not configured yet.
-- No production code changed.
-- No secrets or credentials introduced.
