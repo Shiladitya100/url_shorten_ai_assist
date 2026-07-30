@@ -1,27 +1,8 @@
 # API Documentation
 
-API implementation begins in later milestones.
+## Implemented APIs
 
-Persistence support added in Milestone 2:
-
-- URL mappings are stored in the `url_mappings` table.
-- `short_code` is unique.
-- Aggregate analytics fields are present but not exposed yet.
-
-Domain API models added in Milestone 3:
-
-- `CreateShortUrlRequest`
-- `ShortUrlResponse`
-- `UrlAnalyticsResponse`
-
-Planned APIs:
-
-- `POST /api/v1/urls` — create short URL
-- `GET /{shortCode}` — redirect to original URL
-- `GET /api/v1/urls/{shortCode}/analytics` — retrieve analytics
-- `GET /actuator/health` — health check
-
-## Create Short URL
+### Create Short URL
 
 ```http
 POST /api/v1/urls
@@ -55,11 +36,18 @@ Location: http://localhost:8080/AbC123x
 }
 ```
 
-Current validation:
+Validation:
 
 - `originalUrl` is required.
 - `originalUrl` must be at most 2048 characters.
 - `originalUrl` must be a valid HTTPS URL.
 - `expiresAt` is optional.
+- `expiresAt`, when provided, must be in the future.
+
+## Planned APIs
+
+- `GET /{shortCode}` - redirect to original URL.
+- `GET /api/v1/urls/{shortCode}/analytics` - retrieve analytics.
+- `GET /actuator/health` - health check.
 
 OpenAPI/Swagger will be configured in a dedicated milestone.

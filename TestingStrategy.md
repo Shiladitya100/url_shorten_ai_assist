@@ -40,3 +40,4 @@ Milestone 5 adds tests for:
 - Short URL construction from configured base URL.
 - Create endpoint `201 Created` response.
 - Invalid URL request rejection.
+- Past expiration request rejection.

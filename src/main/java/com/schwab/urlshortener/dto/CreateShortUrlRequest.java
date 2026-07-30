@@ -1,6 +1,7 @@
 package com.schwab.urlshortener.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Size;
 import java.time.OffsetDateTime;
 import org.hibernate.validator.constraints.URL;
@@ -11,6 +12,7 @@ public record CreateShortUrlRequest(
         @URL(protocol = "https")
         String originalUrl,
 
+        @Future
         OffsetDateTime expiresAt
 ) {
 }

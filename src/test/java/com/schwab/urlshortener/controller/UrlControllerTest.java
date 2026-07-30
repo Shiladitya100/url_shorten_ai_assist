@@ -70,4 +70,17 @@ class UrlControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void shouldRejectPastExpiration() throws Exception {
+        CreateShortUrlRequest request = new CreateShortUrlRequest(
+                "https://example.com/articles/123",
+                OffsetDateTime.parse("2026-07-29T10:00:00Z")
+        );
+
+        mockMvc.perform(post("/api/v1/urls")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
 }

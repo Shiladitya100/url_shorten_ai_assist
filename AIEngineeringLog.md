@@ -220,3 +220,38 @@ Validation Results:
 - Errors: 0
 - Skipped: 0
 - Final `mvn clean install` passed.
+
+## Milestone 5 Review Completion: Create Short URL API
+
+Prompt:
+
+- User asked to review milestone 5, complete it, and then go to milestone 6.
+
+Generated Code:
+
+- Added `@Future` validation to `CreateShortUrlRequest.expiresAt`.
+- Added controller test coverage for rejecting past expiration timestamps.
+- Updated API, testing, risk, validation, and engineering decision documentation.
+
+Engineer Modification:
+
+- Pending engineer review.
+
+Rejected Suggestions:
+
+- Did not proceed to milestone 6 in the same turn because the approved engineering process requires stopping after every milestone.
+- Did not introduce a custom expiration validator because standard Bean Validation is sufficient for this milestone.
+
+Reason:
+
+- A past expiration timestamp creates an immediately unusable short URL and should be rejected at the API boundary.
+
+Validation Results:
+
+- `mvn clean install` passed.
+- Tests run: 16
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Static analysis is not configured yet.
+- No secrets or credentials introduced.

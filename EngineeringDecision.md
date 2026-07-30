@@ -188,3 +188,21 @@ Trade-offs:
 
 - Incorrect configuration can produce invalid public URLs.
 - Future production deployment should validate this setting more strictly.
+
+## EDR-010: Reject Past Expiration Timestamps at the API Boundary
+
+Status: Accepted
+
+Decision:
+
+Use Bean Validation `@Future` on `CreateShortUrlRequest.expiresAt`.
+
+Rationale:
+
+An expiration timestamp in the past creates a short URL that is immediately unusable. Rejecting this at the request boundary keeps invalid state out of the service and database.
+
+Trade-offs:
+
+- Standard Bean Validation keeps the implementation lightweight.
+- Time-based validation depends on the application clock used by the validation framework.
+- More complex expiration rules, such as minimum TTL or maximum TTL, are deferred until there is a concrete business requirement.

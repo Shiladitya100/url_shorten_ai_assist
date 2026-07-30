@@ -157,6 +157,34 @@ Required checks:
 
 ## Milestone 5 Validation Results
 
+Review completion check on 2026-07-30:
+
+```powershell
+$env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
+& 'C:\Program Files\apache-maven-3.9.16\bin\mvn.cmd' clean install
+```
+
+Result:
+
+- Build: Passed
+- Compilation: Passed
+- Unit/controller/repository tests: Passed
+- Tests run: 16
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Package/install: Passed
+- Static analysis: Not configured yet
+- Formatting review: Basic readability reviewed
+- Basic security review: Passed; no secrets, credentials, or hardcoded passwords introduced
+- API validation review: Passed; invalid URLs and past expiration timestamps are rejected
+
+Notes:
+
+- Validation used Java 25.0.3 runtime with Java 21 release target because Java 21 is not currently detected.
+- Lombok and Mockito emitted Java 25-related warnings. These are non-blocking in the current environment but should be revisited with a Java 21 runtime.
+
 Initial check:
 
 ```powershell
