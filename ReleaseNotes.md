@@ -13,3 +13,7 @@
 - `UrlMapping` JPA entity.
 - `UrlMappingRepository`.
 - Repository integration test.
+- Domain behavior for expiration, redirectability, and access recording.
+- DTOs for create, short URL response, and analytics response.
+- Hand-written URL mapping mapper.
+- Domain and mapper unit tests.

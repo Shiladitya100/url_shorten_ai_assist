@@ -16,3 +16,11 @@ Milestone 2 adds a repository integration test for:
 - JPA entity persistence.
 - `existsByShortCode`.
 - `findByShortCode`.
+
+Milestone 3 adds unit tests for:
+
+- Expiration behavior.
+- Redirectability behavior.
+- Access recording.
+- Mapping to short URL response.
+- Mapping to analytics response.

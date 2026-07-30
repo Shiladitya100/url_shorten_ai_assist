@@ -47,4 +47,17 @@ public class UrlMapping {
     @Column(name = "active", nullable = false)
     @Builder.Default
     private boolean active = true;
+
+    public boolean isExpired(OffsetDateTime referenceTime) {
+        return expiresAt != null && !expiresAt.isAfter(referenceTime);
+    }
+
+    public boolean isRedirectable(OffsetDateTime referenceTime) {
+        return active && !isExpired(referenceTime);
+    }
+
+    public void recordAccess(OffsetDateTime accessedAt) {
+        accessCount++;
+        lastAccessedAt = accessedAt;
+    }
 }

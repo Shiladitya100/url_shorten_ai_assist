@@ -67,3 +67,41 @@ Trade-offs:
 - Simple and efficient for basic analytics.
 - Does not preserve per-click history.
 - High-write redirect traffic may eventually require a separate analytics event table or asynchronous aggregation.
+
+## EDR-004: Use Java Records for DTOs
+
+Status: Accepted
+
+Decision:
+
+Use Java records for request and response DTOs.
+
+Rationale:
+
+DTOs should be immutable transport models. Records reduce boilerplate while keeping the API model explicit and readable.
+
+Trade-offs:
+
+- Records are less flexible for frameworks that require no-argument constructors, but Spring MVC and Jackson support records.
+- Validation annotations must be placed directly on record components.
+
+Alternatives considered:
+
+- Lombok DTO classes: rejected for now because records are simpler for immutable API models.
+
+## EDR-005: Use Hand-Written Mapper Initially
+
+Status: Accepted
+
+Decision:
+
+Use a small hand-written `UrlMappingMapper` instead of introducing MapStruct.
+
+Rationale:
+
+The current mapping logic is minimal. A hand-written mapper avoids extra annotation processing and keeps behavior transparent.
+
+Trade-offs:
+
+- Manual mapping can become repetitive as DTOs grow.
+- MapStruct may be reconsidered if mapping complexity increases.

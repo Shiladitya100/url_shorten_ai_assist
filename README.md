@@ -4,9 +4,9 @@ Production-grade URL shortener built with Java 21, Spring Boot 3.x, Maven, H2, S
 
 ## Current Status
 
-Milestone 2: Database and Flyway.
+Milestone 3: Domain Model.
 
-The project currently contains the Spring Boot skeleton, package structure, baseline dependencies, H2/Flyway configuration, the initial URL mapping table, a JPA entity, repository, and repository integration coverage. Functional URL shortener APIs will be added incrementally after milestone approval.
+The project currently contains the Spring Boot skeleton, package structure, baseline dependencies, H2/Flyway configuration, URL mapping persistence, domain behavior, DTOs, mapper, and unit/integration coverage. Functional URL shortener APIs will be added incrementally after milestone approval.
 
 ## Local Build
 

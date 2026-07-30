@@ -8,6 +8,12 @@ Persistence support added in Milestone 2:
 - `short_code` is unique.
 - Aggregate analytics fields are present but not exposed yet.
 
+Domain API models added in Milestone 3:
+
+- `CreateShortUrlRequest`
+- `ShortUrlResponse`
+- `UrlAnalyticsResponse`
+
 Planned APIs:
 
 - `POST /api/v1/urls` — create short URL

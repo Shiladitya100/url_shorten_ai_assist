@@ -10,6 +10,8 @@
 | H2 is not production database technology | Real production deployment would need stronger persistence | Document as assignment constraint and isolate persistence through repository layer |
 | Aggregate analytics fields may become write hot spots | High redirect volume could cause contention on a single row | Accept for assignment scope; revisit in performance milestone |
 | File-backed H2 creates local database files | Local state can affect manual testing | Database files are ignored by Git; tests use isolated in-memory database behavior |
+| URL validation is currently minimal on DTO | Invalid but nonblank URLs may pass DTO validation until validation milestone | Add dedicated URL validation in the validation milestone |
+| Mapper is hand-written | Mapping drift can occur as fields grow | Cover mapper behavior with unit tests; reconsider MapStruct if mapping complexity grows |
 
 ## Rollback Approach
 
