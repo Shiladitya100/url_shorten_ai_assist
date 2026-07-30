@@ -276,3 +276,21 @@ Trade-offs:
 - This does not support time-series analysis, referrer tracking, geolocation, or user-agent reporting.
 - Aggregate counters are easier to test and document.
 - High redirect volume may require asynchronous aggregation or a separate event table later.
+
+## EDR-015: Centralize API Exception Handling
+
+Status: Accepted
+
+Decision:
+
+Use `@RestControllerAdvice` to map application and validation exceptions to a consistent `ApiErrorResponse`.
+
+Rationale:
+
+Centralized error handling avoids duplicated controller try/catch blocks, keeps controllers focused on HTTP routing, and gives clients a predictable error response shape.
+
+Trade-offs:
+
+- The global handler is Spring-specific and belongs at the application boundary.
+- Error response shape is now part of the public API contract and should be versioned carefully if changed later.
+- A generic catch-all handler is deferred to avoid accidentally hiding unexpected defects during development.

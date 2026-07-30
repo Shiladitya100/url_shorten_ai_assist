@@ -3,6 +3,7 @@ package com.schwab.urlshortener.controller;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.schwab.urlshortener.exception.UrlMappingExpiredException;
@@ -41,7 +42,11 @@ class RedirectControllerTest {
                 .thenThrow(new UrlMappingNotFoundException("missing"));
 
         mockMvc.perform(get("/missing"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.error").value("Not Found"))
+                .andExpect(jsonPath("$.message").value("URL mapping not found for short code: missing"))
+                .andExpect(jsonPath("$.path").value("/missing"));
     }
 
     @Test
@@ -50,7 +55,11 @@ class RedirectControllerTest {
                 .thenThrow(new UrlMappingExpiredException("expired"));
 
         mockMvc.perform(get("/expired"))
-                .andExpect(status().isGone());
+                .andExpect(status().isGone())
+                .andExpect(jsonPath("$.status").value(410))
+                .andExpect(jsonPath("$.error").value("Gone"))
+                .andExpect(jsonPath("$.message").value("URL mapping expired for short code: expired"))
+                .andExpect(jsonPath("$.path").value("/expired"));
     }
 
     @Test
@@ -59,6 +68,10 @@ class RedirectControllerTest {
                 .thenThrow(new UrlMappingNotRedirectableException("inactive"));
 
         mockMvc.perform(get("/inactive"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.error").value("Not Found"))
+                .andExpect(jsonPath("$.message").value("URL mapping is not redirectable for short code: inactive"))
+                .andExpect(jsonPath("$.path").value("/inactive"));
     }
 }

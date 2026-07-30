@@ -104,3 +104,31 @@ Limitations:
 - `GET /actuator/health` - health check.
 
 OpenAPI/Swagger will be configured in a dedicated milestone.
+
+## Error Response
+
+API errors use a consistent response body:
+
+```json
+{
+  "timestamp": "2026-07-30T10:00:00Z",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Request validation failed",
+  "path": "/api/v1/urls",
+  "fieldErrors": [
+    {
+      "field": "originalUrl",
+      "message": "must be a valid URL"
+    }
+  ]
+}
+```
+
+Status mapping:
+
+- Validation failure: `400 Bad Request`
+- Missing short code: `404 Not Found`
+- Inactive short code: `404 Not Found`
+- Expired short code: `410 Gone`
+- Short-code generation exhaustion: `503 Service Unavailable`

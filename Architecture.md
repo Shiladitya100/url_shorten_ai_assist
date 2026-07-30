@@ -114,3 +114,7 @@ UrlController
 ```
 
 Analytics are stored as aggregate fields on `url_mappings`: `access_count` and `last_accessed_at`. The analytics endpoint returns current aggregate state and computes the `expired` response flag at request time.
+
+## Exception Handling
+
+Controllers do not translate application exceptions locally. `GlobalExceptionHandler` centralizes HTTP error mapping and returns a consistent `ApiErrorResponse` body. This keeps controller code focused on request routing and delegates cross-cutting error response behavior to the exception layer.

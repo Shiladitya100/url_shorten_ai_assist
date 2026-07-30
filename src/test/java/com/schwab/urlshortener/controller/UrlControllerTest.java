@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schwab.urlshortener.dto.CreateShortUrlRequest;
 import com.schwab.urlshortener.dto.ShortUrlResponse;
 import com.schwab.urlshortener.dto.UrlAnalyticsResponse;
+import com.schwab.urlshortener.exception.ShortCodeGenerationException;
 import com.schwab.urlshortener.exception.UrlMappingNotFoundException;
 import com.schwab.urlshortener.service.UrlShorteningService;
 import java.time.OffsetDateTime;
@@ -71,7 +72,12 @@ class UrlControllerTest {
         mockMvc.perform(post("/api/v1/urls")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.message").value("Request validation failed"))
+                .andExpect(jsonPath("$.path").value("/api/v1/urls"))
+                .andExpect(jsonPath("$.fieldErrors[0].field").value("originalUrl"));
     }
 
     @Test
@@ -84,7 +90,10 @@ class UrlControllerTest {
         mockMvc.perform(post("/api/v1/urls")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.fieldErrors[0].field").value("expiresAt"));
     }
 
     @Test
@@ -116,6 +125,26 @@ class UrlControllerTest {
                 .thenThrow(new UrlMappingNotFoundException("missing"));
 
         mockMvc.perform(get("/api/v1/urls/missing/analytics"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.error").value("Not Found"))
+                .andExpect(jsonPath("$.message").value("URL mapping not found for short code: missing"))
+                .andExpect(jsonPath("$.path").value("/api/v1/urls/missing/analytics"));
+    }
+
+    @Test
+    void shouldReturnServiceUnavailableWhenShortCodeGenerationFails() throws Exception {
+        CreateShortUrlRequest request = new CreateShortUrlRequest("https://example.com/articles/123", null);
+        when(urlShorteningService.createShortUrl(any(CreateShortUrlRequest.class)))
+                .thenThrow(new ShortCodeGenerationException("Unable to generate a unique short code"));
+
+        mockMvc.perform(post("/api/v1/urls")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.status").value(503))
+                .andExpect(jsonPath("$.error").value("Service Unavailable"))
+                .andExpect(jsonPath("$.message").value("Unable to generate a unique short code"))
+                .andExpect(jsonPath("$.path").value("/api/v1/urls"));
     }
 }

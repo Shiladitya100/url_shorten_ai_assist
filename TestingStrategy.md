@@ -64,3 +64,11 @@ Milestone 8 adds tests for:
 - Missing analytics short-code `404 Not Found` response.
 - Analytics service lookup and mapping behavior.
 - Expired flag computation in analytics responses.
+
+Milestone 9 adds tests for:
+
+- Standard validation error response shape.
+- Standard missing short-code error response shape.
+- Standard expired short-code error response shape.
+- Standard inactive short-code error response shape.
+- Short-code generation failure mapped to `503 Service Unavailable`.

@@ -4,9 +4,9 @@ Production-grade URL shortener built with Java 21, Spring Boot 3.x, Maven, H2, S
 
 ## Current Status
 
-Milestone 8: Analytics.
+Milestone 9: Exception Handling.
 
-The project currently contains the Spring Boot skeleton, package structure, baseline dependencies, H2/Flyway configuration, URL mapping persistence, domain behavior, DTOs, mapper, short-code generation, the create-short-URL API, the redirect API, explicit expiration handling, and aggregate analytics.
+The project currently contains the Spring Boot skeleton, package structure, baseline dependencies, H2/Flyway configuration, URL mapping persistence, domain behavior, DTOs, mapper, short-code generation, the create-short-URL API, the redirect API, explicit expiration handling, aggregate analytics, and centralized API exception handling.
 
 ## Local Build
 

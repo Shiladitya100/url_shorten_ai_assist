@@ -3,11 +3,9 @@ package com.schwab.urlshortener.controller;
 import com.schwab.urlshortener.dto.CreateShortUrlRequest;
 import com.schwab.urlshortener.dto.ShortUrlResponse;
 import com.schwab.urlshortener.dto.UrlAnalyticsResponse;
-import com.schwab.urlshortener.exception.UrlMappingNotFoundException;
 import com.schwab.urlshortener.service.UrlShorteningService;
 import jakarta.validation.Valid;
 import java.net.URI;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/v1/urls")
@@ -35,10 +32,6 @@ public class UrlController {
 
     @GetMapping("/{shortCode}/analytics")
     public ResponseEntity<UrlAnalyticsResponse> getAnalytics(@PathVariable String shortCode) {
-        try {
-            return ResponseEntity.ok(urlShorteningService.getAnalytics(shortCode));
-        } catch (UrlMappingNotFoundException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
-        }
+        return ResponseEntity.ok(urlShorteningService.getAnalytics(shortCode));
     }
 }

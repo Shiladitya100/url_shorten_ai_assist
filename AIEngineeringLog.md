@@ -373,3 +373,44 @@ Validation Results:
 - Skipped: 0
 - Static analysis is not configured yet.
 - No secrets or credentials introduced.
+
+## Milestone 9: Exception Handling
+
+Prompt:
+
+- User approved milestone 9 after milestone 8 completion.
+
+Generated Code:
+
+- Added `ApiErrorResponse`.
+- Added `FieldErrorResponse`.
+- Added `GlobalExceptionHandler`.
+- Removed controller-local exception translation from URL and redirect controllers.
+- Added/updated controller assertions for standardized validation, not-found, gone, inactive, and generation-failure responses.
+- Updated README, architecture, API, testing, validation, release notes, and engineering decision documentation.
+
+Engineer Modification:
+
+- Pending engineer review.
+
+Rejected Suggestions:
+
+- Did not add a generic catch-all exception handler because hiding unexpected defects is risky at this stage.
+- Did not change success response contracts.
+- Did not introduce Problem Details yet because the assignment does not require RFC 7807 and the current DTO is simpler for evaluation.
+
+Reason:
+
+- Centralized exception handling removes duplicated controller try/catch blocks and gives API clients a consistent error response shape.
+
+Validation Results:
+
+- Attempt 1 `mvn clean install` failed because `@WebMvcTest` slices did not provide a `Clock` bean for `GlobalExceptionHandler`.
+- Fixed by using `Clock.systemUTC()` inside the handler.
+- Attempt 2 `mvn clean install` passed.
+- Tests run: 31
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Static analysis is not configured yet.
+- No secrets or credentials introduced.

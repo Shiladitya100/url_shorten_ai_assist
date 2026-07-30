@@ -34,3 +34,5 @@
 - Expiration boundary tests for redirects.
 - Analytics endpoint for short-code aggregate statistics.
 - Analytics service and controller tests.
+- Global exception handler with consistent API error response body.
+- Standardized validation, not-found, expired, inactive, and generation-failure error handling.
