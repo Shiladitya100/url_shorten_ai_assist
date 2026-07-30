@@ -68,9 +68,39 @@ Side effects:
 - Successful redirects increment `access_count`.
 - Successful redirects update `last_accessed_at`.
 
+### URL Analytics
+
+```http
+GET /api/v1/urls/{shortCode}/analytics
+```
+
+Successful response:
+
+```json
+{
+  "shortCode": "AbC123x",
+  "originalUrl": "https://example.com/articles/123",
+  "accessCount": 5,
+  "createdAt": "2026-07-29T10:00:00Z",
+  "expiresAt": "2026-08-06T10:00:00Z",
+  "lastAccessedAt": "2026-07-30T09:30:00Z",
+  "active": true,
+  "expired": false
+}
+```
+
+Error responses:
+
+- `404 Not Found` when the short code does not exist.
+
+Limitations:
+
+- Analytics are aggregate only.
+- No per-click event history is stored.
+- Only successful redirects update `accessCount` and `lastAccessedAt`.
+
 ## Planned APIs
 
-- `GET /api/v1/urls/{shortCode}/analytics` - retrieve analytics.
 - `GET /actuator/health` - health check.
 
 OpenAPI/Swagger will be configured in a dedicated milestone.

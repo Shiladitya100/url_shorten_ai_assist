@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import com.schwab.urlshortener.config.UrlShortenerProperties;
 import com.schwab.urlshortener.dto.CreateShortUrlRequest;
 import com.schwab.urlshortener.dto.ShortUrlResponse;
+import com.schwab.urlshortener.dto.UrlAnalyticsResponse;
 import com.schwab.urlshortener.entity.UrlMapping;
 import com.schwab.urlshortener.exception.UrlMappingExpiredException;
 import com.schwab.urlshortener.exception.UrlMappingNotFoundException;
@@ -155,5 +156,55 @@ class UrlShorteningServiceImplTest {
                 .isInstanceOf(UrlMappingNotRedirectableException.class);
         assertThat(mapping.getAccessCount()).isZero();
         assertThat(mapping.getLastAccessedAt()).isNull();
+    }
+
+    @Test
+    void shouldReturnAnalyticsForShortCode() {
+        UrlMapping mapping = UrlMapping.builder()
+                .originalUrl("https://example.com/articles/123")
+                .shortCode("AbC123x")
+                .createdAt(OffsetDateTime.parse("2026-07-29T10:00:00Z"))
+                .expiresAt(OffsetDateTime.parse("2026-08-06T10:00:00Z"))
+                .accessCount(5)
+                .lastAccessedAt(OffsetDateTime.parse("2026-07-30T09:30:00Z"))
+                .build();
+        when(urlMappingRepository.findByShortCode("AbC123x")).thenReturn(Optional.of(mapping));
+
+        UrlAnalyticsResponse response = service.getAnalytics("AbC123x");
+
+        assertThat(response.shortCode()).isEqualTo("AbC123x");
+        assertThat(response.originalUrl()).isEqualTo("https://example.com/articles/123");
+        assertThat(response.accessCount()).isEqualTo(5);
+        assertThat(response.createdAt()).isEqualTo(OffsetDateTime.parse("2026-07-29T10:00:00Z"));
+        assertThat(response.expiresAt()).isEqualTo(OffsetDateTime.parse("2026-08-06T10:00:00Z"));
+        assertThat(response.lastAccessedAt()).isEqualTo(OffsetDateTime.parse("2026-07-30T09:30:00Z"));
+        assertThat(response.active()).isTrue();
+        assertThat(response.expired()).isFalse();
+    }
+
+    @Test
+    void shouldReturnExpiredFlagInAnalytics() {
+        UrlMapping mapping = UrlMapping.builder()
+                .originalUrl("https://example.com/articles/123")
+                .shortCode("AbC123x")
+                .createdAt(OffsetDateTime.parse("2026-07-29T10:00:00Z"))
+                .expiresAt(OffsetDateTime.parse("2026-07-30T10:00:00Z"))
+                .accessCount(5)
+                .build();
+        when(urlMappingRepository.findByShortCode("AbC123x")).thenReturn(Optional.of(mapping));
+
+        UrlAnalyticsResponse response = service.getAnalytics("AbC123x");
+
+        assertThat(response.expired()).isTrue();
+        assertThat(response.accessCount()).isEqualTo(5);
+    }
+
+    @Test
+    void shouldRejectAnalyticsForMissingShortCode() {
+        when(urlMappingRepository.findByShortCode("missing")).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> service.getAnalytics("missing"))
+                .isInstanceOf(UrlMappingNotFoundException.class)
+                .hasMessageContaining("missing");
     }
 }

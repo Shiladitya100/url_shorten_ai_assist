@@ -258,3 +258,21 @@ Trade-offs:
 - Exposing `410 Gone` reveals that a short code previously existed.
 - Returning `404 Not Found` for inactive links avoids exposing administrative state.
 - If enumeration resistance becomes a hard security requirement, expiration responses may need to be normalized to `404 Not Found`.
+
+## EDR-014: Expose Aggregate Analytics Only
+
+Status: Accepted
+
+Decision:
+
+Expose analytics from aggregate fields on `url_mappings`: access count, last accessed timestamp, lifecycle timestamps, active status, and computed expired status.
+
+Rationale:
+
+The assignment requires analytics but does not require per-click attribution or event history. Aggregate analytics satisfy the initial requirement with less storage, less privacy risk, and simpler transactional behavior.
+
+Trade-offs:
+
+- This does not support time-series analysis, referrer tracking, geolocation, or user-agent reporting.
+- Aggregate counters are easier to test and document.
+- High redirect volume may require asynchronous aggregation or a separate event table later.

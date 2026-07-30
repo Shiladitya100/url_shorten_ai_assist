@@ -354,3 +354,48 @@ Notes:
 
 - Validation used Java 25.0.3 runtime with Java 21 release target because Java 21 is not currently detected.
 - Lombok and Mockito emitted Java 25-related warnings. These are known non-blocking build warnings in the current environment.
+
+## Milestone 8 Validation Plan
+
+Required checks:
+
+- Compile project.
+- Run analytics controller tests.
+- Run analytics service tests.
+- Run existing regression tests.
+- Execute `mvn clean install`.
+- Review for secrets.
+- Review analytics privacy and limitation documentation.
+- Commit and push after successful validation.
+
+## Milestone 8 Validation Results
+
+Executed on: 2026-07-30
+
+Command:
+
+```powershell
+$env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
+& 'C:\Program Files\apache-maven-3.9.16\bin\mvn.cmd' clean install
+```
+
+Result:
+
+- Build: Passed
+- Compilation: Passed
+- Unit/controller/repository tests: Passed
+- Tests run: 30
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Package/install: Passed
+- Static analysis: Not configured yet
+- Formatting review: Basic readability reviewed
+- Basic security review: Passed; no secrets, credentials, or hardcoded passwords introduced
+- Analytics review: Passed; endpoint exposes aggregate-only statistics and documents limitations
+
+Notes:
+
+- Validation used Java 25.0.3 runtime with Java 21 release target because Java 21 is not currently detected.
+- Lombok and Mockito emitted Java 25-related warnings. These are known non-blocking build warnings in the current environment.

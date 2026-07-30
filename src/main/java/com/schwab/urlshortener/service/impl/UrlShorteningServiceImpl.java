@@ -3,6 +3,7 @@ package com.schwab.urlshortener.service.impl;
 import com.schwab.urlshortener.config.UrlShortenerProperties;
 import com.schwab.urlshortener.dto.CreateShortUrlRequest;
 import com.schwab.urlshortener.dto.ShortUrlResponse;
+import com.schwab.urlshortener.dto.UrlAnalyticsResponse;
 import com.schwab.urlshortener.entity.UrlMapping;
 import com.schwab.urlshortener.exception.UrlMappingExpiredException;
 import com.schwab.urlshortener.exception.UrlMappingNotFoundException;
@@ -72,5 +73,14 @@ public class UrlShorteningServiceImpl implements UrlShorteningService {
 
         mapping.recordAccess(accessedAt);
         return mapping.getOriginalUrl();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UrlAnalyticsResponse getAnalytics(String shortCode) {
+        UrlMapping mapping = urlMappingRepository.findByShortCode(shortCode)
+                .orElseThrow(() -> new UrlMappingNotFoundException(shortCode));
+
+        return urlMappingMapper.toAnalyticsResponse(mapping, OffsetDateTime.now(clock));
     }
 }

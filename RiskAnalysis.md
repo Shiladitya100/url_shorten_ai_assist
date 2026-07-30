@@ -21,6 +21,8 @@
 | Root-level `GET /{shortCode}` can overlap with future top-level routes | Future route names may conflict with generated short codes | Keep API routes under `/api`; revisit reserved-code validation in validation/security milestones |
 | `410 Gone` reveals that an expired short code existed | Attackers could distinguish expired codes from never-created codes | Accept for current business clarity; normalize to `404 Not Found` later if enumeration resistance becomes a requirement |
 | Expiration checks use application time | Clock drift can cause early or late expiration behavior across environments | Use injected `Clock` in service tests and document runtime time synchronization as a readiness concern |
+| Analytics expose original URLs | Users with a valid short code can retrieve the destination without following the redirect | Accept for assignment scope; add authorization or owner scoping if multi-user support is introduced |
+| Analytics are aggregate only | Product stakeholders may expect per-click history or trend data | Document limitation and revisit event-level analytics only if required |
 
 ## Rollback Approach
 

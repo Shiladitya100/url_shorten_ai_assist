@@ -3,6 +3,7 @@ package com.schwab.urlshortener.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -11,6 +12,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schwab.urlshortener.dto.CreateShortUrlRequest;
 import com.schwab.urlshortener.dto.ShortUrlResponse;
+import com.schwab.urlshortener.dto.UrlAnalyticsResponse;
+import com.schwab.urlshortener.exception.UrlMappingNotFoundException;
 import com.schwab.urlshortener.service.UrlShorteningService;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Test;
@@ -82,5 +85,37 @@ class UrlControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnAnalytics() throws Exception {
+        UrlAnalyticsResponse response = new UrlAnalyticsResponse(
+                "AbC123x",
+                "https://example.com/articles/123",
+                5,
+                OffsetDateTime.parse("2026-07-29T10:00:00Z"),
+                OffsetDateTime.parse("2026-08-06T10:00:00Z"),
+                OffsetDateTime.parse("2026-07-30T09:30:00Z"),
+                true,
+                false
+        );
+        when(urlShorteningService.getAnalytics("AbC123x")).thenReturn(response);
+
+        mockMvc.perform(get("/api/v1/urls/AbC123x/analytics"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.shortCode").value("AbC123x"))
+                .andExpect(jsonPath("$.originalUrl").value("https://example.com/articles/123"))
+                .andExpect(jsonPath("$.accessCount").value(5))
+                .andExpect(jsonPath("$.active").value(true))
+                .andExpect(jsonPath("$.expired").value(false));
+    }
+
+    @Test
+    void shouldReturnNotFoundForMissingAnalyticsShortCode() throws Exception {
+        when(urlShorteningService.getAnalytics("missing"))
+                .thenThrow(new UrlMappingNotFoundException("missing"));
+
+        mockMvc.perform(get("/api/v1/urls/missing/analytics"))
+                .andExpect(status().isNotFound());
     }
 }

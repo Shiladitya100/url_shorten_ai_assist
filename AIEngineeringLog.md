@@ -334,3 +334,42 @@ Validation Results:
 - Skipped: 0
 - Static analysis is not configured yet.
 - No secrets or credentials introduced.
+
+## Milestone 8: Analytics
+
+Prompt:
+
+- User approved milestone 8 after milestone 7 completion.
+
+Generated Code:
+
+- Added `UrlShorteningService.getAnalytics`.
+- Added analytics service implementation using existing aggregate fields.
+- Added `GET /api/v1/urls/{shortCode}/analytics`.
+- Added controller tests for analytics success and missing short code.
+- Added service tests for analytics success, missing short code, and expired flag computation.
+- Updated README, architecture, API, testing, risk, validation, release notes, and engineering decision documentation.
+
+Engineer Modification:
+
+- Pending engineer review.
+
+Rejected Suggestions:
+
+- Did not add an analytics event table because aggregate analytics meet the approved milestone scope.
+- Did not add authentication/authorization because user ownership is not yet in the requirements.
+- Did not add referrer, geolocation, or user-agent tracking because those introduce privacy and scope trade-offs not approved for this milestone.
+
+Reason:
+
+- The existing schema already captures the required aggregate analytics. Exposing that state through a service/controller path completes the analytics requirement without unnecessary persistence complexity.
+
+Validation Results:
+
+- `mvn clean install` passed.
+- Tests run: 30
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Static analysis is not configured yet.
+- No secrets or credentials introduced.

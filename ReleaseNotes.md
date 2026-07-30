@@ -32,3 +32,5 @@
 - Redirect controller and service tests.
 - Explicit expired-link handling with `410 Gone`.
 - Expiration boundary tests for redirects.
+- Analytics endpoint for short-code aggregate statistics.
+- Analytics service and controller tests.

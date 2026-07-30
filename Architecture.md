@@ -103,3 +103,14 @@ The redirect controller owns HTTP status translation. The service owns lookup, e
 Expiration is represented by the optional `expires_at` column. A URL without `expires_at` does not expire. A URL with `expires_at` is expired when the reference time is equal to or later than the stored timestamp.
 
 Create requests reject past expiration timestamps at the API boundary. Redirect requests return `410 Gone` for expired mappings and do not update analytics counters.
+
+## Analytics Flow
+
+```text
+UrlController
+  -> UrlShorteningService
+  -> UrlMappingRepository
+  -> UrlMappingMapper
+```
+
+Analytics are stored as aggregate fields on `url_mappings`: `access_count` and `last_accessed_at`. The analytics endpoint returns current aggregate state and computes the `expired` response flag at request time.

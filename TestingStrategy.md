@@ -57,3 +57,10 @@ Milestone 7 adds tests for:
 - Expiration boundary where `expiresAt == now` is expired.
 - Inactive mappings return not found behavior instead of gone.
 - Regression coverage that inactive mappings do not record access.
+
+Milestone 8 adds tests for:
+
+- Analytics endpoint response contract.
+- Missing analytics short-code `404 Not Found` response.
+- Analytics service lookup and mapping behavior.
+- Expired flag computation in analytics responses.
