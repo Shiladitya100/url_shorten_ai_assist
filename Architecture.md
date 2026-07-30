@@ -17,19 +17,37 @@ Controllers expose HTTP APIs. Services own application use cases. Repositories i
 
 ```text
 com.schwab.urlshortener
-├── config
-├── controller
-├── dto
-├── entity
-├── exception
-├── mapper
-├── repository
-├── service
-├── service.impl
-├── util
-└── validation
+|-- config
+|-- controller
+|-- dto
+|-- entity
+|-- exception
+|-- mapper
+|-- repository
+|-- service
+|-- service.impl
+|-- util
+`-- validation
 ```
 
 ## Current Milestone
 
-Milestone 1 establishes the project skeleton only. No domain model or endpoint behavior has been implemented yet.
+Milestone 2 establishes the database baseline and persistence layer. No HTTP endpoint behavior has been implemented yet.
+
+## Persistence Model
+
+The initial persistence model uses a single aggregate table:
+
+```text
+url_mappings
+|-- id
+|-- original_url
+|-- short_code
+|-- created_at
+|-- expires_at
+|-- access_count
+|-- last_accessed_at
+`-- active
+```
+
+The `short_code` column is unique and indexed because redirect lookup will use this field on every redirect request.

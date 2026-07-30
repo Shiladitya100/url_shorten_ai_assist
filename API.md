@@ -2,6 +2,12 @@
 
 API implementation begins in later milestones.
 
+Persistence support added in Milestone 2:
+
+- URL mappings are stored in the `url_mappings` table.
+- `short_code` is unique.
+- Aggregate analytics fields are present but not exposed yet.
+
 Planned APIs:
 
 - `POST /api/v1/urls` — create short URL

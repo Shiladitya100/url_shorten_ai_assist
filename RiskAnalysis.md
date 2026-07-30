@@ -8,6 +8,8 @@
 | Validation currently uses Java 25 runtime instead of Java 21 runtime | Runtime-specific warnings or behavior may differ from target Java version | Install/configure Java 21 and run full validation with Java 21 |
 | Repository starts empty | More bootstrap work is required | Build incrementally and validate after each milestone |
 | H2 is not production database technology | Real production deployment would need stronger persistence | Document as assignment constraint and isolate persistence through repository layer |
+| Aggregate analytics fields may become write hot spots | High redirect volume could cause contention on a single row | Accept for assignment scope; revisit in performance milestone |
+| File-backed H2 creates local database files | Local state can affect manual testing | Database files are ignored by Git; tests use isolated in-memory database behavior |
 
 ## Rollback Approach
 

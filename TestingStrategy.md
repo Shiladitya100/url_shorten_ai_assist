@@ -9,3 +9,10 @@
 ## Current Tests
 
 Milestone 1 includes a Spring context-load test to verify the application bootstrap.
+
+Milestone 2 adds a repository integration test for:
+
+- Flyway schema creation.
+- JPA entity persistence.
+- `existsByShortCode`.
+- `findByShortCode`.

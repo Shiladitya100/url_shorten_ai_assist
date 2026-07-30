@@ -32,3 +32,19 @@ Fallback for this machine:
 ```powershell
 & 'C:\Program Files\apache-maven-3.9.16\bin\mvn.cmd' clean install
 ```
+
+## Local Database
+
+The default profile uses file-backed H2:
+
+```text
+jdbc:h2:file:./data/url-shortener
+```
+
+The H2 console is enabled for local development at:
+
+```text
+/h2-console
+```
+
+Test execution uses an isolated H2 database and Flyway migrations.
