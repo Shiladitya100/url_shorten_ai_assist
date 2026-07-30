@@ -24,3 +24,11 @@ Milestone 3 adds unit tests for:
 - Access recording.
 - Mapping to short URL response.
 - Mapping to analytics response.
+
+Milestone 4 adds unit tests for:
+
+- Base62 character generation.
+- Invalid generator length handling.
+- Unique candidate acceptance.
+- Collision retry behavior.
+- Exhausted generation attempts.

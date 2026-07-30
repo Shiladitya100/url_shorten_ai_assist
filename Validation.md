@@ -141,3 +141,50 @@ Notes:
 
 - Validation used Java 25.0.3 runtime with Java 21 release target because Java 21 is not currently detected.
 - Lombok and Mockito emitted Java 25-related warnings. These are known non-blocking build warnings in the current environment.
+
+## Milestone 4 Validation Plan
+
+Required checks:
+
+- Compile project.
+- Run Base62 generator tests.
+- Run unique generation service tests.
+- Run existing regression tests.
+- Execute `mvn clean install`.
+- Review for secrets and unsafe randomness.
+- Commit and push after successful validation.
+
+## Milestone 4 Validation Results
+
+Initial check:
+
+```powershell
+$env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
+& 'C:\Program Files\apache-maven-3.9.16\bin\mvn.cmd' clean test
+```
+
+Result:
+
+- Build: Passed
+- Tests run: 12
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+
+Final `mvn clean install` result:
+
+- Build: Passed
+- Compilation: Passed
+- Tests run: 12
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Package/install: Passed
+- Static analysis: Not configured yet
+- Formatting review: Basic readability reviewed
+- Basic security review: Passed; no secrets, credentials, or hardcoded passwords introduced; generation uses `SecureRandom`
+
+Notes:
+
+- Validation used Java 25.0.3 runtime with Java 21 release target because Java 21 is not currently detected.
+- Lombok and Mockito emitted Java 25-related warnings. These are known non-blocking build warnings in the current environment.

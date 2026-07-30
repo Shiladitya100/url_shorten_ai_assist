@@ -32,7 +32,7 @@ com.schwab.urlshortener
 
 ## Current Milestone
 
-Milestone 3 establishes the domain model and mapping layer. No HTTP endpoint behavior has been implemented yet.
+Milestone 4 establishes URL short-code generation. No HTTP endpoint behavior has been implemented yet.
 
 ## Persistence Model
 
@@ -65,3 +65,12 @@ Keeping this behavior on the entity prevents duplicated expiration and analytics
 ## DTO and Mapper Boundary
 
 DTOs are immutable Java records. The mapper converts persistence entities to API-facing response models. The mapper is hand-written for now because the mapping surface is small and does not justify adding another code-generation dependency.
+
+## Short-Code Generation
+
+Short-code generation is split into two responsibilities:
+
+- `ShortCodeGenerator` creates random candidate codes.
+- `ShortCodeGenerationService` checks candidate uniqueness against persisted URL mappings.
+
+The default generator uses a Base62 alphabet and `SecureRandom`. The uniqueness service uses bounded retries to avoid infinite loops if collisions repeatedly occur.

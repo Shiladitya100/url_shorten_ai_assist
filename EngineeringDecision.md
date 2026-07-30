@@ -105,3 +105,48 @@ Trade-offs:
 
 - Manual mapping can become repetitive as DTOs grow.
 - MapStruct may be reconsidered if mapping complexity increases.
+
+## EDR-006: Use SecureRandom Base62 Short Codes
+
+Status: Accepted
+
+Decision:
+
+Generate 7-character short codes using a Base62 alphabet and `SecureRandom`.
+
+Rationale:
+
+Base62 produces URL-safe, compact, human-readable codes. `SecureRandom` avoids predictable sequences and is a safer default for public identifiers than sequential IDs or standard pseudo-random generators.
+
+Benefits:
+
+- URL-safe output.
+- Large initial keyspace.
+- Avoids exposing creation volume.
+
+Trade-offs:
+
+- Random generation requires collision checks.
+- Codes are not ordered by creation time.
+
+Alternatives considered:
+
+- Sequential numeric IDs: rejected because they expose usage volume and are easier to enumerate.
+- UUIDs: rejected because they are too long for a shortener.
+
+## EDR-007: Bound Collision Retry Attempts
+
+Status: Accepted
+
+Decision:
+
+Limit unique short-code generation to 10 attempts before failing with `ShortCodeGenerationException`.
+
+Rationale:
+
+Generation should not loop indefinitely under unexpected collision or repository behavior.
+
+Trade-offs:
+
+- Extremely unlikely collision bursts could fail a request.
+- Bounded failure is preferable to hanging a request thread.

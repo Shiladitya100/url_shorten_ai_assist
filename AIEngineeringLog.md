@@ -104,6 +104,44 @@ Validation Results:
 - Skipped: 0
 - Final `mvn clean install` passed.
 
+## Milestone 4: URL Generation
+
+Prompt:
+
+- User approved Milestone 4.
+
+Generated Code:
+
+- `ShortCodeGenerator` interface.
+- `Base62ShortCodeGenerator`.
+- `ShortCodeGenerationService` interface.
+- `ShortCodeGenerationServiceImpl`.
+- `ShortCodeGenerationException`.
+- Unit tests for generator and uniqueness service behavior.
+
+Engineer Modification:
+
+- Pending engineer review.
+
+Rejected Suggestions:
+
+- No create URL API was added because API creation belongs to Milestone 5.
+- No database schema change was added because existing `short_code` uniqueness supports this milestone.
+- No configurable code length was added yet to keep the first implementation small.
+
+Reason:
+
+- Milestone 4 objective is URL generation only.
+
+Validation Results:
+
+- Initial `mvn clean test` passed.
+- Tests run: 12
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Final `mvn clean install` passed.
+
 ## Milestone 3: Domain Model
 
 Prompt:

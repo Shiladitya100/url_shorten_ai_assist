@@ -12,6 +12,8 @@
 | File-backed H2 creates local database files | Local state can affect manual testing | Database files are ignored by Git; tests use isolated in-memory database behavior |
 | URL validation is currently minimal on DTO | Invalid but nonblank URLs may pass DTO validation until validation milestone | Add dedicated URL validation in the validation milestone |
 | Mapper is hand-written | Mapping drift can occur as fields grow | Cover mapper behavior with unit tests; reconsider MapStruct if mapping complexity grows |
+| Random short-code generation can collide | Create requests could fail if repeated collisions occur | Repository uniqueness check and bounded retry handling |
+| Short-code length may need future adjustment | 7 characters may be insufficient for very large scale | Document as initial setting; revisit in performance/readiness milestone |
 
 ## Rollback Approach
 

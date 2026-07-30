@@ -17,3 +17,7 @@
 - DTOs for create, short URL response, and analytics response.
 - Hand-written URL mapping mapper.
 - Domain and mapper unit tests.
+- Base62 short-code generator.
+- Unique short-code generation service.
+- Bounded collision retry handling.
+- Short-code generation tests.
