@@ -661,3 +661,37 @@ Validation Results:
 - Static analysis is not configured yet.
 - Redirect analytics now use an atomic repository update.
 - No secrets or credentials introduced.
+
+## Milestone 17: Security Improvements
+
+Prompt:
+
+- User instructed to skip Milestone 17.
+
+Generated Code:
+
+- None.
+
+Engineer Modification:
+
+- Milestone skipped by engineer decision.
+
+Rejected Suggestions:
+
+- H2 console hardening changes were not performed.
+- Additional security-focused validation and documentation changes were not performed.
+
+Reason:
+
+- Human approval explicitly skipped the milestone.
+
+Validation Results:
+
+- Documentation-only validation passed with `mvn clean install`.
+- Tests run: 43
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Static analysis is not configured yet.
+- No production code changed.
+- No secrets or credentials introduced.

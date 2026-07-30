@@ -108,3 +108,5 @@ Milestone 16 adds performance regression coverage for:
 - Repository-level atomic successful-access update.
 - Redirect service using repository update instead of entity-local analytics mutation.
 - Expired and inactive redirects not recording access.
+
+Milestone 17 Security Improvements was skipped by engineer decision.
