@@ -494,3 +494,41 @@ Validation Results:
 - Static analysis is not configured yet.
 - Logging review passed; no full original URLs are logged by the added application log statements.
 - No secrets or credentials introduced.
+
+## Milestone 12: Swagger / OpenAPI
+
+Prompt:
+
+- User approved milestone 12 after milestone 11 completion.
+
+Generated Code:
+
+- Added `OpenApiConfig`.
+- Added OpenAPI tags, operations, response metadata, and parameter descriptions to controllers.
+- Added schema annotations to request, response, analytics, and error DTOs.
+- Updated README, API documentation, architecture, engineering decisions, testing strategy, release notes, validation, and AI traceability documentation.
+
+Engineer Modification:
+
+- Pending engineer review.
+
+Rejected Suggestions:
+
+- Did not add a handwritten OpenAPI YAML file because generated docs reduce drift with controller code.
+- Did not change API paths or response bodies.
+- Did not add authentication metadata because authentication is not implemented.
+
+Reason:
+
+- Springdoc is already in the project dependencies. Code annotations provide evaluator-friendly Swagger documentation without expanding runtime behavior.
+
+Validation Results:
+
+- `mvn clean install` passed.
+- Tests run: 34
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Static analysis is not configured yet.
+- OpenAPI annotations compile and Swagger/OpenAPI endpoints are documented.
+- No secrets or credentials introduced.

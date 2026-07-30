@@ -130,3 +130,7 @@ Short-code generation also checks reserved route words before returning a candid
 The service and exception layers emit application logs for create, redirect, analytics, validation, and handled error flows. Logs intentionally use short codes, counts, statuses, and timestamps instead of full original URLs to reduce accidental sensitive-data exposure.
 
 Current logging is plain Spring Boot logging. Structured JSON logs and request correlation IDs are deferred to production-readiness work.
+
+## OpenAPI Documentation
+
+Springdoc generates OpenAPI documentation from controller and DTO annotations. This keeps executable API code and generated documentation aligned while avoiding a separate handwritten OpenAPI specification that can drift.

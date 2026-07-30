@@ -346,3 +346,21 @@ Trade-offs:
 - Debugging destination-specific issues may require database inspection.
 - Logs remain useful for request flow, failure class, short-code lookup, and analytics counter behavior.
 - Structured logging and correlation IDs are deferred to a later production-readiness milestone.
+
+## EDR-019: Generate OpenAPI from Code Annotations
+
+Status: Accepted
+
+Decision:
+
+Use Springdoc annotations on controllers and DTOs plus a small `OpenApiConfig` bean for API metadata.
+
+Rationale:
+
+Generated OpenAPI documentation stays close to executable controller contracts and reduces drift compared with a separate handwritten specification.
+
+Trade-offs:
+
+- Controller and DTO files carry documentation annotations.
+- Documentation quality depends on keeping annotations current during future API changes.
+- Contract-first OpenAPI generation is deferred because the current project is code-first and incrementally developed.

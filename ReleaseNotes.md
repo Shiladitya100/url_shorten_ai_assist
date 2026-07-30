@@ -40,3 +40,5 @@
 - Reserved route-name protection during short-code generation.
 - Scoped application logging for create, redirect, analytics, validation, and handled error flows.
 - Logging policy to avoid full original URL exposure.
+- OpenAPI metadata configuration.
+- Swagger annotations for create, redirect, analytics, and error response models.

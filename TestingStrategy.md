@@ -84,3 +84,9 @@ Milestone 11 logging validation is primarily review-based:
 - Confirm logging does not expose full original URLs.
 - Confirm create, redirect, analytics, validation, and handled error flows have useful log events.
 - Run existing regression tests to ensure logging changes do not alter behavior.
+
+Milestone 12 OpenAPI validation is primarily build and startup based:
+
+- Confirm Springdoc dependency compiles with controller and DTO annotations.
+- Run existing regression tests to ensure annotations do not alter API behavior.
+- Document Swagger UI and OpenAPI JSON endpoints.

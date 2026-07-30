@@ -104,7 +104,19 @@ Limitations:
 
 - `GET /actuator/health` - health check.
 
-OpenAPI/Swagger will be configured in a dedicated milestone.
+## Swagger / OpenAPI
+
+Swagger UI is available when the application is running:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+OpenAPI JSON is available at:
+
+```text
+http://localhost:8080/v3/api-docs
+```
 
 ## Error Response
 
