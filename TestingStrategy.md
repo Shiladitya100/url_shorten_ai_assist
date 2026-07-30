@@ -100,3 +100,11 @@ Milestone 14 adds focused unit tests for:
 - Public short URL construction from configured base URL.
 - OpenAPI metadata configuration.
 - Application exception message contracts.
+
+Milestone 15 Integration Tests was skipped by engineer decision.
+
+Milestone 16 adds performance regression coverage for:
+
+- Repository-level atomic successful-access update.
+- Redirect service using repository update instead of entity-local analytics mutation.
+- Expired and inactive redirects not recording access.

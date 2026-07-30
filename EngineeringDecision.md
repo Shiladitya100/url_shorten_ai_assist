@@ -364,3 +364,21 @@ Trade-offs:
 - Controller and DTO files carry documentation annotations.
 - Documentation quality depends on keeping annotations current during future API changes.
 - Contract-first OpenAPI generation is deferred because the current project is code-first and incrementally developed.
+
+## EDR-020: Use Atomic Repository Update for Redirect Analytics
+
+Status: Accepted
+
+Decision:
+
+Record successful redirect analytics with a repository-level update that increments `access_count` and sets `last_accessed_at`.
+
+Rationale:
+
+Redirect is the hot path. Updating aggregate analytics with one explicit update query avoids relying on entity dirty checking for the counter mutation and makes the increment safer when multiple redirects hit the same short code concurrently.
+
+Trade-offs:
+
+- The redirect flow still performs one read and one write.
+- Aggregate analytics can still become a write hotspot for very popular short links.
+- Event-based or asynchronous analytics would scale further but requires schema and architecture changes outside this milestone.

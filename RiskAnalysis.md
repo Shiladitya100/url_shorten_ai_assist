@@ -16,7 +16,7 @@
 | Short-code length may need future adjustment | 7 characters may be insufficient for very large scale | Document as initial setting; revisit in performance/readiness milestone |
 | HTTPS-only validation may reject legitimate HTTP use cases | Some internal/local URLs cannot be shortened | Accept as secure default; revisit if business requirement requires HTTP |
 | Configured base URL may be wrong | API can return unusable short URLs | Keep base URL externalized and document setup requirement |
-| Redirect access counting updates the URL mapping row synchronously | High redirect traffic could create write contention or lost updates under concurrency | Accept for milestone 6; revisit optimistic locking or asynchronous analytics in performance and analytics milestones |
+| Redirect access counting updates the URL mapping row synchronously | High redirect traffic could create write contention on popular short links | Atomic repository update reduces lost-update risk; revisit asynchronous analytics or event tables for higher scale |
 | Redirect controller currently maps service exceptions locally | HTTP error mapping is duplicated if more controllers need the same behavior | Centralize in the global exception handling milestone |
 | Root-level `GET /{shortCode}` can overlap with future top-level routes | Future route names may conflict with generated short codes | Keep API routes under `/api`; revisit reserved-code validation in validation/security milestones |
 | `410 Gone` reveals that an expired short code existed | Attackers could distinguish expired codes from never-created codes | Accept for current business clarity; normalize to `404 Not Found` later if enumeration resistance becomes a requirement |

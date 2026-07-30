@@ -3,6 +3,7 @@ package com.schwab.urlshortener.service.impl;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -95,8 +96,10 @@ class UrlShorteningServiceImplTest {
         String redirectUrl = service.resolveRedirectUrl("AbC123x");
 
         assertThat(redirectUrl).isEqualTo("https://example.com/articles/123");
-        assertThat(mapping.getAccessCount()).isEqualTo(1);
-        assertThat(mapping.getLastAccessedAt()).isEqualTo(OffsetDateTime.parse("2026-07-30T10:00:00Z"));
+        verify(urlMappingRepository).recordSuccessfulAccess(
+                "AbC123x",
+                OffsetDateTime.parse("2026-07-30T10:00:00Z")
+        );
     }
 
     @Test
@@ -121,8 +124,7 @@ class UrlShorteningServiceImplTest {
         assertThatThrownBy(() -> service.resolveRedirectUrl("AbC123x"))
                 .isInstanceOf(UrlMappingExpiredException.class)
                 .hasMessageContaining("AbC123x");
-        assertThat(mapping.getAccessCount()).isZero();
-        assertThat(mapping.getLastAccessedAt()).isNull();
+        verify(urlMappingRepository, never()).recordSuccessfulAccess(any(), any());
     }
 
     @Test
@@ -137,8 +139,7 @@ class UrlShorteningServiceImplTest {
 
         assertThatThrownBy(() -> service.resolveRedirectUrl("AbC123x"))
                 .isInstanceOf(UrlMappingExpiredException.class);
-        assertThat(mapping.getAccessCount()).isZero();
-        assertThat(mapping.getLastAccessedAt()).isNull();
+        verify(urlMappingRepository, never()).recordSuccessfulAccess(any(), any());
     }
 
     @Test
@@ -154,8 +155,7 @@ class UrlShorteningServiceImplTest {
 
         assertThatThrownBy(() -> service.resolveRedirectUrl("AbC123x"))
                 .isInstanceOf(UrlMappingNotRedirectableException.class);
-        assertThat(mapping.getAccessCount()).isZero();
-        assertThat(mapping.getLastAccessedAt()).isNull();
+        verify(urlMappingRepository, never()).recordSuccessfulAccess(any(), any());
     }
 
     @Test

@@ -596,3 +596,68 @@ Validation Results:
 - Static analysis is not configured yet.
 - No production behavior changed.
 - No secrets or credentials introduced.
+
+## Milestone 15: Integration Tests
+
+Prompt:
+
+- User instructed to skip Milestone 15.
+
+Generated Code:
+
+- None.
+
+Engineer Modification:
+
+- Milestone skipped by engineer decision.
+
+Rejected Suggestions:
+
+- End-to-end integration test implementation was not performed.
+
+Reason:
+
+- Human approval explicitly skipped the milestone.
+
+Validation Results:
+
+- Not applicable.
+
+## Milestone 16: Performance Improvements
+
+Prompt:
+
+- User approved Milestone 16.
+
+Generated Code:
+
+- Added repository-level atomic update for successful redirect analytics.
+- Updated redirect service to call the atomic repository update after redirectability checks.
+- Updated service tests for repository-level access recording.
+- Added repository test for atomic counter update.
+- Updated README, architecture, engineering decisions, risk analysis, testing strategy, release notes, validation, and AI traceability documentation.
+
+Engineer Modification:
+
+- Pending engineer review.
+
+Rejected Suggestions:
+
+- Did not introduce asynchronous analytics because that requires architectural and schema changes.
+- Did not add a separate click-event table because aggregate analytics remain the approved model.
+- Did not add caching because redirects still need access-count updates and cache invalidation policy is not defined.
+
+Reason:
+
+- Redirect is the hot path. Atomic database updates reduce persistence-context overhead and lost-update risk without changing the API or schema.
+
+Validation Results:
+
+- `mvn clean install` passed.
+- Tests run: 43
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Static analysis is not configured yet.
+- Redirect analytics now use an atomic repository update.
+- No secrets or credentials introduced.

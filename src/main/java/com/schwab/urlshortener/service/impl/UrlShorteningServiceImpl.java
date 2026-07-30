@@ -80,8 +80,8 @@ public class UrlShorteningServiceImpl implements UrlShorteningService {
             throw new UrlMappingNotRedirectableException(shortCode);
         }
 
-        mapping.recordAccess(accessedAt);
-        log.info("Resolved redirect shortCode={} accessCount={}", shortCode, mapping.getAccessCount());
+        urlMappingRepository.recordSuccessfulAccess(shortCode, accessedAt);
+        log.info("Resolved redirect shortCode={}", shortCode);
         return mapping.getOriginalUrl();
     }
 
