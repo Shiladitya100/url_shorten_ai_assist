@@ -1,6 +1,7 @@
 package com.schwab.urlshortener.controller;
 
 import com.schwab.urlshortener.exception.UrlMappingNotFoundException;
+import com.schwab.urlshortener.exception.UrlMappingExpiredException;
 import com.schwab.urlshortener.exception.UrlMappingNotRedirectableException;
 import com.schwab.urlshortener.service.UrlShorteningService;
 import java.net.URI;
@@ -29,8 +30,10 @@ public class RedirectController {
                     .build();
         } catch (UrlMappingNotFoundException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
-        } catch (UrlMappingNotRedirectableException exception) {
+        } catch (UrlMappingExpiredException exception) {
             throw new ResponseStatusException(HttpStatus.GONE, exception.getMessage(), exception);
+        } catch (UrlMappingNotRedirectableException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
         }
     }
 }

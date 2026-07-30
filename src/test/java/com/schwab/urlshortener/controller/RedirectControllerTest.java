@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.schwab.urlshortener.exception.UrlMappingExpiredException;
 import com.schwab.urlshortener.exception.UrlMappingNotFoundException;
 import com.schwab.urlshortener.exception.UrlMappingNotRedirectableException;
 import com.schwab.urlshortener.service.UrlShorteningService;
@@ -44,11 +45,20 @@ class RedirectControllerTest {
     }
 
     @Test
-    void shouldReturnGoneWhenShortCodeIsNotRedirectable() throws Exception {
+    void shouldReturnGoneWhenShortCodeIsExpired() throws Exception {
         when(urlShorteningService.resolveRedirectUrl("expired"))
-                .thenThrow(new UrlMappingNotRedirectableException("expired"));
+                .thenThrow(new UrlMappingExpiredException("expired"));
 
         mockMvc.perform(get("/expired"))
                 .andExpect(status().isGone());
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenShortCodeIsInactive() throws Exception {
+        when(urlShorteningService.resolveRedirectUrl("inactive"))
+                .thenThrow(new UrlMappingNotRedirectableException("inactive"));
+
+        mockMvc.perform(get("/inactive"))
+                .andExpect(status().isNotFound());
     }
 }

@@ -50,3 +50,10 @@ Milestone 6 adds tests for:
 - Redirect service lookup behavior.
 - Access count and last accessed timestamp mutation.
 - Regression coverage that expired mappings do not record access.
+
+Milestone 7 adds tests for:
+
+- Dedicated expired mapping exception behavior.
+- Expiration boundary where `expiresAt == now` is expired.
+- Inactive mappings return not found behavior instead of gone.
+- Regression coverage that inactive mappings do not record access.

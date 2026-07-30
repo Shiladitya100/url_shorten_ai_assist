@@ -240,3 +240,21 @@ Trade-offs:
 
 - Controller-level exception translation is acceptable for one endpoint.
 - A global exception handler should replace local translation as the API surface grows.
+
+## EDR-013: Treat Expiration as a First-Class Redirect Failure
+
+Status: Accepted
+
+Decision:
+
+Use a dedicated `UrlMappingExpiredException` for expired mappings and map it to `410 Gone`.
+
+Rationale:
+
+Expired links are different from missing or inactive links. The resource existed, but it is no longer available for redirect. `410 Gone` communicates that state more accurately than `404 Not Found`.
+
+Trade-offs:
+
+- Exposing `410 Gone` reveals that a short code previously existed.
+- Returning `404 Not Found` for inactive links avoids exposing administrative state.
+- If enumeration resistance becomes a hard security requirement, expiration responses may need to be normalized to `404 Not Found`.

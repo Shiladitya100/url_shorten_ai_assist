@@ -295,3 +295,42 @@ Validation Results:
 - Skipped: 0
 - Static analysis is not configured yet.
 - No secrets or credentials introduced.
+
+## Milestone 7: Expiration Support
+
+Prompt:
+
+- User approved milestone 7 after milestone 6 completion.
+
+Generated Code:
+
+- Added `UrlMappingExpiredException`.
+- Updated redirect service to distinguish expired mappings from inactive mappings.
+- Updated redirect controller to map expired mappings to `410 Gone` and inactive mappings to `404 Not Found`.
+- Added tests for expiration-at-current-time behavior.
+- Added tests to confirm inactive mappings do not record access.
+- Updated README, architecture, engineering decision, risk, testing, validation, release notes, and AI traceability documentation.
+
+Engineer Modification:
+
+- Pending engineer review.
+
+Rejected Suggestions:
+
+- Did not add scheduled cleanup for expired records because deletion/archival policy is not yet defined.
+- Did not add maximum TTL because there is no approved business rule for it.
+- Did not normalize expired responses to `404 Not Found` because the current API documentation explicitly uses `410 Gone`.
+
+Reason:
+
+- Expiration is a distinct domain state. Treating it explicitly makes redirect behavior testable and documents the privacy trade-off of returning `410 Gone`.
+
+Validation Results:
+
+- `mvn clean install` passed.
+- Tests run: 25
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Static analysis is not configured yet.
+- No secrets or credentials introduced.

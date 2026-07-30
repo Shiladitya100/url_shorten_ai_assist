@@ -19,6 +19,8 @@
 | Redirect access counting updates the URL mapping row synchronously | High redirect traffic could create write contention or lost updates under concurrency | Accept for milestone 6; revisit optimistic locking or asynchronous analytics in performance and analytics milestones |
 | Redirect controller currently maps service exceptions locally | HTTP error mapping is duplicated if more controllers need the same behavior | Centralize in the global exception handling milestone |
 | Root-level `GET /{shortCode}` can overlap with future top-level routes | Future route names may conflict with generated short codes | Keep API routes under `/api`; revisit reserved-code validation in validation/security milestones |
+| `410 Gone` reveals that an expired short code existed | Attackers could distinguish expired codes from never-created codes | Accept for current business clarity; normalize to `404 Not Found` later if enumeration resistance becomes a requirement |
+| Expiration checks use application time | Clock drift can cause early or late expiration behavior across environments | Use injected `Clock` in service tests and document runtime time synchronization as a readiness concern |
 
 ## Rollback Approach
 

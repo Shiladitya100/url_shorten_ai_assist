@@ -10,6 +10,7 @@ import com.schwab.urlshortener.config.UrlShortenerProperties;
 import com.schwab.urlshortener.dto.CreateShortUrlRequest;
 import com.schwab.urlshortener.dto.ShortUrlResponse;
 import com.schwab.urlshortener.entity.UrlMapping;
+import com.schwab.urlshortener.exception.UrlMappingExpiredException;
 import com.schwab.urlshortener.exception.UrlMappingNotFoundException;
 import com.schwab.urlshortener.exception.UrlMappingNotRedirectableException;
 import com.schwab.urlshortener.mapper.UrlMappingMapper;
@@ -117,8 +118,41 @@ class UrlShorteningServiceImplTest {
         when(urlMappingRepository.findByShortCode("AbC123x")).thenReturn(Optional.of(mapping));
 
         assertThatThrownBy(() -> service.resolveRedirectUrl("AbC123x"))
-                .isInstanceOf(UrlMappingNotRedirectableException.class)
+                .isInstanceOf(UrlMappingExpiredException.class)
                 .hasMessageContaining("AbC123x");
+        assertThat(mapping.getAccessCount()).isZero();
+        assertThat(mapping.getLastAccessedAt()).isNull();
+    }
+
+    @Test
+    void shouldTreatExpirationAtCurrentTimeAsExpired() {
+        UrlMapping mapping = UrlMapping.builder()
+                .originalUrl("https://example.com/articles/123")
+                .shortCode("AbC123x")
+                .createdAt(OffsetDateTime.parse("2026-07-29T10:00:00Z"))
+                .expiresAt(OffsetDateTime.parse("2026-07-30T10:00:00Z"))
+                .build();
+        when(urlMappingRepository.findByShortCode("AbC123x")).thenReturn(Optional.of(mapping));
+
+        assertThatThrownBy(() -> service.resolveRedirectUrl("AbC123x"))
+                .isInstanceOf(UrlMappingExpiredException.class);
+        assertThat(mapping.getAccessCount()).isZero();
+        assertThat(mapping.getLastAccessedAt()).isNull();
+    }
+
+    @Test
+    void shouldRejectInactiveShortCodeWithoutRecordingAccess() {
+        UrlMapping mapping = UrlMapping.builder()
+                .originalUrl("https://example.com/articles/123")
+                .shortCode("AbC123x")
+                .createdAt(OffsetDateTime.parse("2026-07-29T10:00:00Z"))
+                .expiresAt(OffsetDateTime.parse("2026-08-06T10:00:00Z"))
+                .active(false)
+                .build();
+        when(urlMappingRepository.findByShortCode("AbC123x")).thenReturn(Optional.of(mapping));
+
+        assertThatThrownBy(() -> service.resolveRedirectUrl("AbC123x"))
+                .isInstanceOf(UrlMappingNotRedirectableException.class);
         assertThat(mapping.getAccessCount()).isZero();
         assertThat(mapping.getLastAccessedAt()).isNull();
     }

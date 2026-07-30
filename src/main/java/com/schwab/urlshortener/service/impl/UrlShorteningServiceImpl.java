@@ -4,6 +4,7 @@ import com.schwab.urlshortener.config.UrlShortenerProperties;
 import com.schwab.urlshortener.dto.CreateShortUrlRequest;
 import com.schwab.urlshortener.dto.ShortUrlResponse;
 import com.schwab.urlshortener.entity.UrlMapping;
+import com.schwab.urlshortener.exception.UrlMappingExpiredException;
 import com.schwab.urlshortener.exception.UrlMappingNotFoundException;
 import com.schwab.urlshortener.exception.UrlMappingNotRedirectableException;
 import com.schwab.urlshortener.mapper.UrlMappingMapper;
@@ -62,7 +63,10 @@ public class UrlShorteningServiceImpl implements UrlShorteningService {
                 .orElseThrow(() -> new UrlMappingNotFoundException(shortCode));
 
         OffsetDateTime accessedAt = OffsetDateTime.now(clock);
-        if (!mapping.isRedirectable(accessedAt)) {
+        if (mapping.isExpired(accessedAt)) {
+            throw new UrlMappingExpiredException(shortCode);
+        }
+        if (!mapping.isActive()) {
             throw new UrlMappingNotRedirectableException(shortCode);
         }
 

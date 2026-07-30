@@ -30,3 +30,5 @@
 - Redirect endpoint for short codes.
 - Redirect access-count and last-accessed timestamp updates.
 - Redirect controller and service tests.
+- Explicit expired-link handling with `410 Gone`.
+- Expiration boundary tests for redirects.

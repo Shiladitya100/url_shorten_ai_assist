@@ -32,7 +32,7 @@ com.schwab.urlshortener
 
 ## Current Milestone
 
-Milestone 6 establishes redirect support for generated short codes.
+Milestone 7 formalizes expiration support across create and redirect flows.
 
 ## Persistence Model
 
@@ -97,3 +97,9 @@ RedirectController
 ```
 
 The redirect controller owns HTTP status translation. The service owns lookup, expiration/active-state checks, and access-count mutation. Service exceptions remain framework-free so later global exception handling can centralize HTTP mapping without coupling the service layer to Spring MVC.
+
+## Expiration Behavior
+
+Expiration is represented by the optional `expires_at` column. A URL without `expires_at` does not expire. A URL with `expires_at` is expired when the reference time is equal to or later than the stored timestamp.
+
+Create requests reject past expiration timestamps at the API boundary. Redirect requests return `410 Gone` for expired mappings and do not update analytics counters.
