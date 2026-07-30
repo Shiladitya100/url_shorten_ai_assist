@@ -44,9 +44,3 @@
 - Swagger annotations for create, redirect, analytics, and error response models.
 - Focused unit tests for validation rules, URL-shortener configuration, OpenAPI metadata, and exception message contracts.
 - Atomic repository update for successful redirect analytics.
-
-### Skipped
-
-- Milestone 13 Docker, by engineer instruction.
-- Milestone 15 Integration Tests, by engineer instruction.
-- Milestone 17 Security Improvements, by engineer instruction.
