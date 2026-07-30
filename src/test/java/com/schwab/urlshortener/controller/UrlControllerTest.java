@@ -147,4 +147,14 @@ class UrlControllerTest {
                 .andExpect(jsonPath("$.message").value("Unable to generate a unique short code"))
                 .andExpect(jsonPath("$.path").value("/api/v1/urls"));
     }
+
+    @Test
+    void shouldRejectMalformedAnalyticsShortCode() throws Exception {
+        mockMvc.perform(get("/api/v1/urls/abc-123/analytics"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.message").value("Request validation failed"))
+                .andExpect(jsonPath("$.fieldErrors[0].message").value("shortCode must be a 7-character Base62 value"));
+    }
 }

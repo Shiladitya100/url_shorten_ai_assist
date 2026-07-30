@@ -23,6 +23,8 @@
 | Expiration checks use application time | Clock drift can cause early or late expiration behavior across environments | Use injected `Clock` in service tests and document runtime time synchronization as a readiness concern |
 | Analytics expose original URLs | Users with a valid short code can retrieve the destination without following the redirect | Accept for assignment scope; add authorization or owner scoping if multi-user support is introduced |
 | Analytics are aggregate only | Product stakeholders may expect per-click history or trend data | Document limitation and revisit event-level analytics only if required |
+| Short-code validation is tied to current code length | Future configurable lengths could break valid requests if validation is not updated | Keep rules centralized in `ShortCodeRules`; update from one place if length changes |
+| Reserved code list may be incomplete | Future top-level routes could still collide with generated short codes | Update reserved list whenever adding new root-level routes |
 
 ## Rollback Approach
 

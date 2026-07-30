@@ -414,3 +414,44 @@ Validation Results:
 - Skipped: 0
 - Static analysis is not configured yet.
 - No secrets or credentials introduced.
+
+## Milestone 10: Validation
+
+Prompt:
+
+- User approved milestone 10 after milestone 9 completion.
+
+Generated Code:
+
+- Added shared `ShortCodeRules`.
+- Added short-code path-variable validation on redirect and analytics endpoints.
+- Added global handling for `ConstraintViolationException`.
+- Added reserved route-name checks during short-code generation.
+- Added controller tests for malformed redirect and analytics short codes.
+- Added generation-service test for reserved-code retry.
+- Updated README, architecture, API, engineering decisions, risk analysis, testing strategy, release notes, validation, and AI traceability documentation.
+
+Engineer Modification:
+
+- Pending engineer review.
+
+Rejected Suggestions:
+
+- Did not implement custom URL validator yet because current HTTPS URL validation is already covered and deeper SSRF/domain policy belongs to security improvements.
+- Did not make code length configurable because that changes generation and public API behavior beyond the validation milestone.
+
+Reason:
+
+- Path validation should match generated short-code rules. Shared validation rules reduce drift and reject malformed requests before repository access.
+
+Validation Results:
+
+- Attempt 1 `mvn clean install` failed because an existing inactive-link controller test used `inactive`, which violates the new 7-character Base62 validation rule.
+- Fixed the test fixture to use `InActv1`.
+- Attempt 2 `mvn clean install` passed.
+- Tests run: 34
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Static analysis is not configured yet.
+- No secrets or credentials introduced.

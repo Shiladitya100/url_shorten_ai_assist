@@ -294,3 +294,37 @@ Trade-offs:
 - The global handler is Spring-specific and belongs at the application boundary.
 - Error response shape is now part of the public API contract and should be versioned carefully if changed later.
 - A generic catch-all handler is deferred to avoid accidentally hiding unexpected defects during development.
+
+## EDR-016: Validate Short Codes at the API Boundary
+
+Status: Accepted
+
+Decision:
+
+Require short-code path variables to match a 7-character Base62 pattern.
+
+Rationale:
+
+The generator produces 7-character Base62 codes. Applying the same constraint at the API boundary rejects malformed requests before they hit the service/repository layer.
+
+Trade-offs:
+
+- This tightly couples the public API validation contract to the current short-code length.
+- If the generated length becomes configurable later, validation rules must be updated with the same source of truth.
+
+## EDR-017: Reserve Application Route Names from Generated Codes
+
+Status: Accepted
+
+Decision:
+
+Reject reserved route words during short-code generation.
+
+Rationale:
+
+The redirect endpoint lives at the root path. Reserved words reduce the risk of generated short links colliding with application-owned routes such as API, actuator, Swagger, or H2 console paths.
+
+Trade-offs:
+
+- With the current 7-character length, most reserved words are not directly generated.
+- Keeping the guard now makes future code-length changes safer.

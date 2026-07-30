@@ -72,3 +72,9 @@ Milestone 9 adds tests for:
 - Standard expired short-code error response shape.
 - Standard inactive short-code error response shape.
 - Short-code generation failure mapped to `503 Service Unavailable`.
+
+Milestone 10 adds tests for:
+
+- Malformed redirect short-code validation.
+- Malformed analytics short-code validation.
+- Reserved generated short-code retry behavior.

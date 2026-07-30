@@ -49,6 +49,16 @@ class ShortCodeGenerationServiceImplTest {
     }
 
     @Test
+    void shouldRetryWhenCandidateIsReserved() {
+        when(shortCodeGenerator.generate(7)).thenReturn("actuator", "XyZ987q");
+        when(urlMappingRepository.existsByShortCode("XyZ987q")).thenReturn(false);
+
+        String code = service.generateUniqueCode();
+
+        assertThat(code).isEqualTo("XyZ987q");
+    }
+
+    @Test
     void shouldFailAfterMaximumAttempts() {
         when(shortCodeGenerator.generate(7)).thenReturn("AbC123x");
         when(urlMappingRepository.existsByShortCode("AbC123x")).thenReturn(true);

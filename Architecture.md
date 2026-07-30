@@ -118,3 +118,9 @@ Analytics are stored as aggregate fields on `url_mappings`: `access_count` and `
 ## Exception Handling
 
 Controllers do not translate application exceptions locally. `GlobalExceptionHandler` centralizes HTTP error mapping and returns a consistent `ApiErrorResponse` body. This keeps controller code focused on request routing and delegates cross-cutting error response behavior to the exception layer.
+
+## Validation
+
+Request-body validation is handled with Bean Validation annotations on DTO records. Path-variable validation is enabled with `@Validated` controllers and shared short-code rules. The application only accepts 7-character Base62 short codes on redirect and analytics paths.
+
+Short-code generation also checks reserved route words before returning a candidate. This prevents generated root-level links from colliding with application-owned routes if short-code length changes in the future.

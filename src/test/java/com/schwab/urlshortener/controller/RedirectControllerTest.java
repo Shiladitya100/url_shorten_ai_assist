@@ -64,14 +64,24 @@ class RedirectControllerTest {
 
     @Test
     void shouldReturnNotFoundWhenShortCodeIsInactive() throws Exception {
-        when(urlShorteningService.resolveRedirectUrl("inactive"))
-                .thenThrow(new UrlMappingNotRedirectableException("inactive"));
+        when(urlShorteningService.resolveRedirectUrl("InActv1"))
+                .thenThrow(new UrlMappingNotRedirectableException("InActv1"));
 
-        mockMvc.perform(get("/inactive"))
+        mockMvc.perform(get("/InActv1"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.error").value("Not Found"))
-                .andExpect(jsonPath("$.message").value("URL mapping is not redirectable for short code: inactive"))
-                .andExpect(jsonPath("$.path").value("/inactive"));
+                .andExpect(jsonPath("$.message").value("URL mapping is not redirectable for short code: InActv1"))
+                .andExpect(jsonPath("$.path").value("/InActv1"));
+    }
+
+    @Test
+    void shouldRejectMalformedRedirectShortCode() throws Exception {
+        mockMvc.perform(get("/abc-123"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.message").value("Request validation failed"))
+                .andExpect(jsonPath("$.fieldErrors[0].message").value("shortCode must be a 7-character Base62 value"));
     }
 }

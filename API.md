@@ -43,6 +43,7 @@ Validation:
 - `originalUrl` must be a valid HTTPS URL.
 - `expiresAt` is optional.
 - `expiresAt`, when provided, must be in the future.
+- `shortCode` path variables must be 7-character Base62 values.
 
 ### Redirect URL
 

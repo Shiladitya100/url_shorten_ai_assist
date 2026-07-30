@@ -457,3 +457,62 @@ Notes:
 
 - Validation used Java 25.0.3 runtime with Java 21 release target because Java 21 is not currently detected.
 - Lombok and Mockito emitted Java 25-related warnings. These are known non-blocking build warnings in the current environment.
+
+## Milestone 10 Validation Plan
+
+Required checks:
+
+- Compile project.
+- Run controller tests for malformed path-variable validation.
+- Run short-code generation tests for reserved-code retry behavior.
+- Run existing regression tests.
+- Execute `mvn clean install`.
+- Review for secrets.
+- Review validation rules and route-collision risks.
+- Commit and push after successful validation.
+
+## Milestone 10 Validation Results
+
+Executed on: 2026-07-30
+
+Attempt 1:
+
+```powershell
+$env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
+& 'C:\Program Files\apache-maven-3.9.16\bin\mvn.cmd' clean install
+```
+
+Result:
+
+- Build: Failed
+- Cause: Existing inactive-link controller test used `inactive`, which violates the new 7-character Base62 short-code rule.
+- Fix: Updated the test fixture to use valid short code `InActv1`.
+
+Attempt 2:
+
+```powershell
+$env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
+& 'C:\Program Files\apache-maven-3.9.16\bin\mvn.cmd' clean install
+```
+
+Result:
+
+- Build: Passed
+- Compilation: Passed
+- Unit/controller/repository tests: Passed
+- Tests run: 34
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Package/install: Passed
+- Static analysis: Not configured yet
+- Formatting review: Basic readability reviewed
+- Basic security review: Passed; no secrets, credentials, or hardcoded passwords introduced
+- Validation review: Passed; malformed short-code paths return `400 Bad Request`, reserved generated candidates are retried
+
+Notes:
+
+- Validation used Java 25.0.3 runtime with Java 21 release target because Java 21 is not currently detected.
+- Lombok and Mockito emitted Java 25-related warnings. These are known non-blocking build warnings in the current environment.

@@ -4,12 +4,12 @@ import com.schwab.urlshortener.exception.ShortCodeGenerationException;
 import com.schwab.urlshortener.repository.UrlMappingRepository;
 import com.schwab.urlshortener.service.ShortCodeGenerationService;
 import com.schwab.urlshortener.util.ShortCodeGenerator;
+import com.schwab.urlshortener.validation.ShortCodeRules;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ShortCodeGenerationServiceImpl implements ShortCodeGenerationService {
 
-    private static final int SHORT_CODE_LENGTH = 7;
     private static final int MAX_GENERATION_ATTEMPTS = 10;
 
     private final ShortCodeGenerator shortCodeGenerator;
@@ -26,8 +26,8 @@ public class ShortCodeGenerationServiceImpl implements ShortCodeGenerationServic
     @Override
     public String generateUniqueCode() {
         for (int attempt = 1; attempt <= MAX_GENERATION_ATTEMPTS; attempt++) {
-            String candidate = shortCodeGenerator.generate(SHORT_CODE_LENGTH);
-            if (!urlMappingRepository.existsByShortCode(candidate)) {
+            String candidate = shortCodeGenerator.generate(ShortCodeRules.LENGTH);
+            if (!ShortCodeRules.isReserved(candidate) && !urlMappingRepository.existsByShortCode(candidate)) {
                 return candidate;
             }
         }

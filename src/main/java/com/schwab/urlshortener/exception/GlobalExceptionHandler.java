@@ -3,6 +3,7 @@ package com.schwab.urlshortener.exception;
 import com.schwab.urlshortener.dto.ApiErrorResponse;
 import com.schwab.urlshortener.dto.FieldErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -26,6 +27,27 @@ public class GlobalExceptionHandler {
                 .getFieldErrors()
                 .stream()
                 .map(fieldError -> new FieldErrorResponse(fieldError.getField(), fieldError.getDefaultMessage()))
+                .toList();
+
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                "Request validation failed",
+                request.getRequestURI(),
+                fieldErrors
+        );
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiErrorResponse> handleConstraintViolationException(
+            ConstraintViolationException exception,
+            HttpServletRequest request
+    ) {
+        List<FieldErrorResponse> fieldErrors = exception.getConstraintViolations()
+                .stream()
+                .map(violation -> new FieldErrorResponse(
+                        violation.getPropertyPath().toString(),
+                        violation.getMessage()
+                ))
                 .toList();
 
         return buildResponse(
