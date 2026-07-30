@@ -150,3 +150,41 @@ Trade-offs:
 
 - Extremely unlikely collision bursts could fail a request.
 - Bounded failure is preferable to hanging a request thread.
+
+## EDR-008: Require HTTPS Original URLs for Create API
+
+Status: Accepted
+
+Decision:
+
+Require `originalUrl` to be a valid HTTPS URL for the create endpoint.
+
+Rationale:
+
+HTTPS-only URLs are a safer default for a public shortener and avoid promoting insecure redirects.
+
+Trade-offs:
+
+- HTTP URLs are rejected even if valid.
+- Some internal or local testing URLs require future profile-specific relaxation if needed.
+
+Alternatives considered:
+
+- Allow both HTTP and HTTPS: deferred until a concrete business need exists.
+
+## EDR-009: Build Short URLs from Application Configuration
+
+Status: Accepted
+
+Decision:
+
+Use `app.url-shortener.base-url` to build public short URLs.
+
+Rationale:
+
+The externally visible URL should not be hardcoded inside service logic. Configuration allows local, Docker, and deployed environments to use different base URLs.
+
+Trade-offs:
+
+- Incorrect configuration can produce invalid public URLs.
+- Future production deployment should validate this setting more strictly.

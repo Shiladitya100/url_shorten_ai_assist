@@ -14,6 +14,8 @@
 | Mapper is hand-written | Mapping drift can occur as fields grow | Cover mapper behavior with unit tests; reconsider MapStruct if mapping complexity grows |
 | Random short-code generation can collide | Create requests could fail if repeated collisions occur | Repository uniqueness check and bounded retry handling |
 | Short-code length may need future adjustment | 7 characters may be insufficient for very large scale | Document as initial setting; revisit in performance/readiness milestone |
+| HTTPS-only validation may reject legitimate HTTP use cases | Some internal/local URLs cannot be shortened | Accept as secure default; revisit if business requirement requires HTTP |
+| Configured base URL may be wrong | API can return unusable short URLs | Keep base URL externalized and document setup requirement |
 
 ## Rollback Approach
 

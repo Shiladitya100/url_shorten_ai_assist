@@ -32,7 +32,7 @@ com.schwab.urlshortener
 
 ## Current Milestone
 
-Milestone 4 establishes URL short-code generation. No HTTP endpoint behavior has been implemented yet.
+Milestone 5 establishes the first HTTP API: create short URL.
 
 ## Persistence Model
 
@@ -74,3 +74,15 @@ Short-code generation is split into two responsibilities:
 - `ShortCodeGenerationService` checks candidate uniqueness against persisted URL mappings.
 
 The default generator uses a Base62 alphabet and `SecureRandom`. The uniqueness service uses bounded retries to avoid infinite loops if collisions repeatedly occur.
+
+## Create URL Flow
+
+```text
+UrlController
+  -> UrlShorteningService
+  -> ShortCodeGenerationService
+  -> UrlMappingRepository
+  -> UrlMappingMapper
+```
+
+The controller owns HTTP request/response concerns. The service owns use-case orchestration: generate code, create entity, persist mapping, and map response.

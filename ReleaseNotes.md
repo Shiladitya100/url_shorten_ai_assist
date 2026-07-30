@@ -21,3 +21,8 @@
 - Unique short-code generation service.
 - Bounded collision retry handling.
 - Short-code generation tests.
+- Create short URL service.
+- Create short URL controller endpoint.
+- Configurable public base URL.
+- HTTPS URL validation for create requests.
+- Create API tests.

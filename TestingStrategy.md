@@ -32,3 +32,11 @@ Milestone 4 adds unit tests for:
 - Unique candidate acceptance.
 - Collision retry behavior.
 - Exhausted generation attempts.
+
+Milestone 5 adds tests for:
+
+- Create URL service orchestration.
+- Persistence object construction.
+- Short URL construction from configured base URL.
+- Create endpoint `201 Created` response.
+- Invalid URL request rejection.
