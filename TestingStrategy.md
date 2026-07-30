@@ -90,3 +90,13 @@ Milestone 12 OpenAPI validation is primarily build and startup based:
 - Confirm Springdoc dependency compiles with controller and DTO annotations.
 - Run existing regression tests to ensure annotations do not alter API behavior.
 - Document Swagger UI and OpenAPI JSON endpoints.
+
+Milestone 13 Docker was skipped by engineer decision.
+
+Milestone 14 adds focused unit tests for:
+
+- Shared short-code validation rules.
+- Reserved short-code detection.
+- Public short URL construction from configured base URL.
+- OpenAPI metadata configuration.
+- Application exception message contracts.

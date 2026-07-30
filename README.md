@@ -4,9 +4,9 @@ Production-grade URL shortener built with Java 21, Spring Boot 3.x, Maven, H2, S
 
 ## Current Status
 
-Milestone 12: Swagger / OpenAPI.
+Milestone 14: Unit Tests.
 
-The project currently contains the Spring Boot skeleton, package structure, baseline dependencies, H2/Flyway configuration, URL mapping persistence, domain behavior, DTOs, mapper, short-code generation, the create-short-URL API, the redirect API, explicit expiration handling, aggregate analytics, centralized API exception handling, hardened request validation, scoped application logging, and Swagger/OpenAPI documentation.
+The project currently contains the Spring Boot skeleton, package structure, baseline dependencies, H2/Flyway configuration, URL mapping persistence, domain behavior, DTOs, mapper, short-code generation, the create-short-URL API, the redirect API, explicit expiration handling, aggregate analytics, centralized API exception handling, hardened request validation, scoped application logging, Swagger/OpenAPI documentation, and expanded unit test coverage.
 
 ## Local Build
 

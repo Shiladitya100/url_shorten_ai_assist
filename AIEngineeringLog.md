@@ -532,3 +532,67 @@ Validation Results:
 - Static analysis is not configured yet.
 - OpenAPI annotations compile and Swagger/OpenAPI endpoints are documented.
 - No secrets or credentials introduced.
+
+## Milestone 13: Docker
+
+Prompt:
+
+- User instructed to skip Milestone 13.
+
+Generated Code:
+
+- None.
+
+Engineer Modification:
+
+- Milestone skipped by engineer decision.
+
+Rejected Suggestions:
+
+- Dockerfile and Docker Compose implementation were not performed.
+
+Reason:
+
+- Human approval explicitly skipped the milestone.
+
+Validation Results:
+
+- Not applicable.
+
+## Milestone 14: Unit Tests
+
+Prompt:
+
+- User approved Milestone 14.
+
+Generated Code:
+
+- Added unit tests for `ShortCodeRules`.
+- Added unit tests for `UrlShortenerProperties`.
+- Added unit test for `OpenApiConfig`.
+- Added exception message contract tests.
+- Updated README, TestingStrategy, ReleaseNotes, Validation, and AIEngineeringLog.
+
+Engineer Modification:
+
+- Pending engineer review.
+
+Rejected Suggestions:
+
+- Did not modify production behavior because this milestone is focused on unit test coverage.
+- Did not add broad integration tests because integration tests are a separate milestone.
+
+Reason:
+
+- Existing behavior-focused tests were strong, but utility/config/message contracts had low-cost coverage gaps.
+
+Validation Results:
+
+- `mvn clean install` passed.
+- Tests run: 42
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Static analysis is not configured yet.
+- No production behavior changed.
+- No secrets or credentials introduced.
