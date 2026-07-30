@@ -26,3 +26,7 @@
 - Configurable public base URL.
 - HTTPS URL validation for create requests.
 - Create API tests.
+- Future expiration validation for create requests.
+- Redirect endpoint for short codes.
+- Redirect access-count and last-accessed timestamp updates.
+- Redirect controller and service tests.

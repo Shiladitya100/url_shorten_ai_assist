@@ -44,9 +44,32 @@ Validation:
 - `expiresAt` is optional.
 - `expiresAt`, when provided, must be in the future.
 
+### Redirect URL
+
+```http
+GET /{shortCode}
+```
+
+Successful response:
+
+```http
+302 Found
+Location: https://example.com/articles/123
+```
+
+Error responses:
+
+- `404 Not Found` when the short code does not exist.
+- `404 Not Found` when the short code is inactive.
+- `410 Gone` when the short code is expired.
+
+Side effects:
+
+- Successful redirects increment `access_count`.
+- Successful redirects update `last_accessed_at`.
+
 ## Planned APIs
 
-- `GET /{shortCode}` - redirect to original URL.
 - `GET /api/v1/urls/{shortCode}/analytics` - retrieve analytics.
 - `GET /actuator/health` - health check.
 

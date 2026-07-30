@@ -4,6 +4,8 @@ import com.schwab.urlshortener.config.UrlShortenerProperties;
 import com.schwab.urlshortener.dto.CreateShortUrlRequest;
 import com.schwab.urlshortener.dto.ShortUrlResponse;
 import com.schwab.urlshortener.entity.UrlMapping;
+import com.schwab.urlshortener.exception.UrlMappingNotFoundException;
+import com.schwab.urlshortener.exception.UrlMappingNotRedirectableException;
 import com.schwab.urlshortener.mapper.UrlMappingMapper;
 import com.schwab.urlshortener.repository.UrlMappingRepository;
 import com.schwab.urlshortener.service.ShortCodeGenerationService;
@@ -51,5 +53,20 @@ public class UrlShorteningServiceImpl implements UrlShorteningService {
 
         UrlMapping savedMapping = urlMappingRepository.save(mapping);
         return urlMappingMapper.toShortUrlResponse(savedMapping, properties.buildShortUrl(shortCode));
+    }
+
+    @Override
+    @Transactional
+    public String resolveRedirectUrl(String shortCode) {
+        UrlMapping mapping = urlMappingRepository.findByShortCode(shortCode)
+                .orElseThrow(() -> new UrlMappingNotFoundException(shortCode));
+
+        OffsetDateTime accessedAt = OffsetDateTime.now(clock);
+        if (!mapping.isRedirectable(accessedAt)) {
+            throw new UrlMappingNotRedirectableException(shortCode);
+        }
+
+        mapping.recordAccess(accessedAt);
+        return mapping.getOriginalUrl();
     }
 }

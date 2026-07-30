@@ -41,3 +41,12 @@ Milestone 5 adds tests for:
 - Create endpoint `201 Created` response.
 - Invalid URL request rejection.
 - Past expiration request rejection.
+
+Milestone 6 adds tests for:
+
+- Redirect endpoint `302 Found` response with `Location` header.
+- Missing short-code `404 Not Found` response.
+- Expired short-code `410 Gone` response.
+- Redirect service lookup behavior.
+- Access count and last accessed timestamp mutation.
+- Regression coverage that expired mappings do not record access.

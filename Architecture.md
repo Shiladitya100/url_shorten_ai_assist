@@ -32,7 +32,7 @@ com.schwab.urlshortener
 
 ## Current Milestone
 
-Milestone 5 establishes the first HTTP API: create short URL.
+Milestone 6 establishes redirect support for generated short codes.
 
 ## Persistence Model
 
@@ -86,3 +86,14 @@ UrlController
 ```
 
 The controller owns HTTP request/response concerns. The service owns use-case orchestration: generate code, create entity, persist mapping, and map response.
+
+## Redirect Flow
+
+```text
+RedirectController
+  -> UrlShorteningService
+  -> UrlMappingRepository
+  -> UrlMapping
+```
+
+The redirect controller owns HTTP status translation. The service owns lookup, expiration/active-state checks, and access-count mutation. Service exceptions remain framework-free so later global exception handling can centralize HTTP mapping without coupling the service layer to Spring MVC.

@@ -206,3 +206,37 @@ Trade-offs:
 - Standard Bean Validation keeps the implementation lightweight.
 - Time-based validation depends on the application clock used by the validation framework.
 - More complex expiration rules, such as minimum TTL or maximum TTL, are deferred until there is a concrete business requirement.
+
+## EDR-011: Use 302 Found for Redirects
+
+Status: Accepted
+
+Decision:
+
+Return `302 Found` for successful short-code redirects.
+
+Rationale:
+
+Short URLs may need future policy changes, expiration checks, analytics updates, or destination edits. A temporary redirect avoids telling clients and intermediaries to permanently cache the destination.
+
+Trade-offs:
+
+- `302 Found` may produce slightly more repeat traffic than a permanent redirect.
+- `301 Moved Permanently` could be more cache-friendly, but it is less flexible for mutable short-link behavior.
+
+## EDR-012: Keep Redirect Exceptions Framework-Free
+
+Status: Accepted
+
+Decision:
+
+Service-layer redirect failures use application exceptions. The controller translates those exceptions to HTTP statuses until global exception handling is implemented.
+
+Rationale:
+
+This keeps the service layer independent from Spring MVC and preserves the clean architecture boundary.
+
+Trade-offs:
+
+- Controller-level exception translation is acceptable for one endpoint.
+- A global exception handler should replace local translation as the API surface grows.

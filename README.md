@@ -4,9 +4,9 @@ Production-grade URL shortener built with Java 21, Spring Boot 3.x, Maven, H2, S
 
 ## Current Status
 
-Milestone 5: Create Short URL API.
+Milestone 6: Redirect API.
 
-The project currently contains the Spring Boot skeleton, package structure, baseline dependencies, H2/Flyway configuration, URL mapping persistence, domain behavior, DTOs, mapper, short-code generation, and the create-short-URL API. Redirect and analytics APIs will be added incrementally after milestone approval.
+The project currently contains the Spring Boot skeleton, package structure, baseline dependencies, H2/Flyway configuration, URL mapping persistence, domain behavior, DTOs, mapper, short-code generation, the create-short-URL API, and the redirect API. Analytics APIs will be added incrementally after milestone approval.
 
 ## Local Build
 

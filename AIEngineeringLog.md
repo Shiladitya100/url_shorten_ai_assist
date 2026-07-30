@@ -255,3 +255,43 @@ Validation Results:
 - Skipped: 0
 - Static analysis is not configured yet.
 - No secrets or credentials introduced.
+
+## Milestone 6: Redirect API
+
+Prompt:
+
+- User approved milestone 6 after milestone 5 completion.
+
+Generated Code:
+
+- Added `RedirectController`.
+- Added `UrlShorteningService.resolveRedirectUrl`.
+- Added service implementation for short-code lookup, redirectability checks, access-count mutation, and original URL return.
+- Added framework-free redirect exceptions.
+- Added redirect controller tests.
+- Added redirect service tests.
+- Updated README, architecture, API, testing, risk, validation, release notes, and engineering decision documentation.
+
+Engineer Modification:
+
+- Pending engineer review.
+
+Rejected Suggestions:
+
+- Did not add global exception handling because that belongs to a later milestone.
+- Did not add a new analytics table because milestone 6 can use existing aggregate fields.
+- Did not add optimistic locking because concurrency hardening belongs to performance/readiness work.
+
+Reason:
+
+- Redirect is a separate use case from creation. Keeping lookup and access mutation in the service layer preserves controller simplicity and repository isolation.
+
+Validation Results:
+
+- `mvn clean install` passed.
+- Tests run: 22
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Static analysis is not configured yet.
+- No secrets or credentials introduced.

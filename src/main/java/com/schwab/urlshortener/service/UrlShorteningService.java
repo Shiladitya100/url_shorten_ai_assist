@@ -6,4 +6,6 @@ import com.schwab.urlshortener.dto.ShortUrlResponse;
 public interface UrlShorteningService {
 
     ShortUrlResponse createShortUrl(CreateShortUrlRequest request);
+
+    String resolveRedirectUrl(String shortCode);
 }
