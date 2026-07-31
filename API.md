@@ -2,11 +2,30 @@
 
 ## Implemented APIs
 
+### Get CSRF Token
+
+```http
+GET /api/v1/security/csrf
+```
+
+Response:
+
+```json
+{
+  "headerName": "X-XSRF-TOKEN",
+  "parameterName": "_csrf",
+  "token": "csrf-token-value"
+}
+```
+
+The response also sets the `XSRF-TOKEN` cookie. State-changing requests must send both the cookie and the token header.
+
 ### Create Short URL
 
 ```http
 POST /api/v1/urls
 Content-Type: application/json
+X-XSRF-TOKEN: <csrf-token>
 ```
 
 Request:
@@ -44,6 +63,20 @@ Validation:
 - `expiresAt` is optional.
 - `expiresAt`, when provided, must be in the future.
 - `shortCode` path variables must be 7-character Base62 values.
+- Create requests require a valid CSRF token.
+
+PowerShell curl example:
+
+```powershell
+$csrf = curl.exe -s -c cookies.txt http://localhost:8080/api/v1/security/csrf | ConvertFrom-Json
+curl.exe -X POST `
+  -b cookies.txt `
+  -H "accept: */*" `
+  -H "Content-Type: application/json" `
+  -H "X-XSRF-TOKEN: $($csrf.token)" `
+  -d '{"originalUrl":"https://google.com","expiresAt":"2027-08-06T10:00:00Z"}' `
+  http://localhost:8080/api/v1/urls
+```
 
 ### Redirect URL
 
@@ -140,6 +173,7 @@ API errors use a consistent response body:
 
 Status mapping:
 
+- Missing or invalid CSRF token: `403 Forbidden`
 - Validation failure: `400 Bad Request`
 - Missing short code: `404 Not Found`
 - Inactive short code: `404 Not Found`

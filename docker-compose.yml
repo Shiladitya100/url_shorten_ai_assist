@@ -1,0 +1,20 @@
+services:
+  url-shortener:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      APP_URL_SHORTENER_BASE_URL: "http://localhost:8080"
+      APP_SECURITY_CORS_ALLOWED_ORIGINS: "http://localhost:8080"
+      SPRING_H2_CONSOLE_ENABLED: "false"
+    volumes:
+      - url-shortener-data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  url-shortener-data:

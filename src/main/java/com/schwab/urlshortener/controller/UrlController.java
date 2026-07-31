@@ -7,6 +7,7 @@ import com.schwab.urlshortener.service.UrlShorteningService;
 import com.schwab.urlshortener.validation.ShortCodeRules;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,8 +40,17 @@ public class UrlController {
     @Operation(
             summary = "Create a short URL",
             description = "Creates a short code for a valid HTTPS original URL. Optional expiration must be in the future.",
+            parameters = {
+                    @Parameter(
+                            name = "X-XSRF-TOKEN",
+                            in = ParameterIn.HEADER,
+                            required = true,
+                            description = "CSRF token returned by GET /api/v1/security/csrf"
+                    )
+            },
             responses = {
                     @ApiResponse(responseCode = "201", description = "Short URL created"),
+                    @ApiResponse(responseCode = "403", description = "Missing or invalid CSRF token"),
                     @ApiResponse(
                             responseCode = "400",
                             description = "Invalid request",

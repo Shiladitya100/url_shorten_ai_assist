@@ -382,3 +382,38 @@ Trade-offs:
 - The redirect flow still performs one read and one write.
 - Aggregate analytics can still become a write hotspot for very popular short links.
 - Event-based or asynchronous analytics would scale further but requires schema and architecture changes outside this milestone.
+
+## EDR-021: Add Spring Security Boundary with CSRF Protection
+
+Status: Accepted
+
+Decision:
+
+Use Spring Security to protect browser-facing HTTP behavior while keeping current public URL-shortener endpoints unauthenticated.
+
+Rationale:
+
+The create endpoint changes server state and should reject browser-originated requests without CSRF protection. Redirect and analytics reads are intentionally public in the current bearer-short-code model.
+
+Trade-offs:
+
+- Existing clients must send a CSRF token for `POST /api/v1/urls`.
+- Authentication is not added until the domain has users, owners, or administrative operations.
+- Security headers and CORS behavior are centralized and testable.
+
+## EDR-022: Add Docker, CI, and Runbook Baseline
+
+Status: Accepted
+
+Decision:
+
+Provide a Java 21 Dockerfile, Docker Compose configuration, GitHub Actions CI workflow, and runbook.
+
+Rationale:
+
+Build and runtime repeatability are part of production-readiness evaluation. Concrete artifacts are more valuable than documentation-only claims.
+
+Trade-offs:
+
+- The Docker runtime still uses H2 and is suitable for evaluation/local operation, not durable production use.
+- CI runs Maven verification but does not yet publish artifacts or deploy.

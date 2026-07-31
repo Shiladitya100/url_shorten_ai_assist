@@ -218,6 +218,66 @@ Notes:
 - Validation used Java 25.0.3 runtime with Java 21 release target because Java 21 is not currently detected.
 - Lombok and Mockito emitted Java 25-related warnings. These are known non-blocking build warnings in the current environment.
 
+## Milestone 18 Validation Plan
+
+Required checks:
+
+- Compile project.
+- Run security-focused controller tests.
+- Run existing controller, service, repository, mapper, utility, and context regression tests.
+- Execute `mvn clean install`.
+- Review for secrets.
+- Review CSRF behavior and public GET behavior.
+- Confirm Docker/CI/runbook artifacts are present.
+
+## Milestone 18 Validation Results
+
+Executed on: 2026-07-31
+
+Attempt 1:
+
+```powershell
+$env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
+& 'C:\Program Files\apache-maven-3.9.16\bin\mvn.cmd' clean install
+```
+
+Result:
+
+- Build: Failed
+- Cause: Security regression test used `/admin`, which is a root-level path interpreted by the redirect controller and rejected as an invalid short code with `400 Bad Request`.
+- Fix: Updated the denied-endpoint test to use `/api/v1/admin`, which is outside the approved public route list.
+
+Attempt 2:
+
+```powershell
+$env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
+& 'C:\Program Files\apache-maven-3.9.16\bin\mvn.cmd' clean install
+```
+
+Result:
+
+- Build: Passed
+- Compilation: Passed
+- Unit/controller/repository/security tests: Passed
+- Tests run: 50
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Package/install: Passed
+- Static analysis: Not configured yet
+- Security review: Passed; create endpoint requires CSRF, public GET endpoints remain accessible, security headers are covered by tests, and no secrets or credentials were introduced.
+- Operability review: Passed; Dockerfile, Docker Compose, CI workflow, runbook, assumptions/constraints, and ADRs are present.
+- Docker runtime validation: Not executed because Docker CLI is not detected in the current shell.
+- Follow-up CSRF usability review: Passed; `GET /api/v1/security/csrf` returns a token and sets the `XSRF-TOKEN` cookie for manual/browser clients.
+- Swagger usability review: Passed; `POST /api/v1/urls` documents the required `X-XSRF-TOKEN` header in OpenAPI metadata.
+
+Notes:
+
+- Validation used Java 25.0.3 runtime with Java 21 release target because Java 21 is not currently detected.
+- Lombok and Mockito emitted Java 25-related warnings. These are known non-blocking build warnings in the current environment.
+
 ## Milestone 4 Validation Plan
 
 Required checks:

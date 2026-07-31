@@ -45,8 +45,12 @@
 - Focused unit tests for validation rules, URL-shortener configuration, OpenAPI metadata, and exception message contracts.
 - Atomic repository update for successful redirect analytics.
 
-### Skipped
+## Security and Operability Improvements
 
-- Milestone 13 Docker, by engineer instruction.
-- Milestone 15 Integration Tests, by engineer instruction.
-- Milestone 17 Security Improvements, by engineer instruction.
+- Added Spring Security boundary with CSRF protection for `POST /api/v1/urls`.
+- Added `GET /api/v1/security/csrf` for browser and manual API clients.
+- Kept public redirect and analytics GET endpoints unauthenticated.
+- Added CORS configuration and standard security headers.
+- Added Dockerfile, Docker Compose, `.dockerignore`, and GitHub Actions CI workflow.
+- Added assumptions/constraints traceability, ADRs, and runbook documentation.
+- Added security-focused MockMvc tests.

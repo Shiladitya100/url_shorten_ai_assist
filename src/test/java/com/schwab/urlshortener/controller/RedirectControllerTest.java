@@ -9,15 +9,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.schwab.urlshortener.exception.UrlMappingExpiredException;
 import com.schwab.urlshortener.exception.UrlMappingNotFoundException;
 import com.schwab.urlshortener.exception.UrlMappingNotRedirectableException;
+import com.schwab.urlshortener.config.SecurityConfig;
 import com.schwab.urlshortener.service.UrlShorteningService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(RedirectController.class)
+@Import(SecurityConfig.class)
 class RedirectControllerTest {
 
     @Autowired
@@ -33,7 +36,9 @@ class RedirectControllerTest {
 
         mockMvc.perform(get("/AbC123x"))
                 .andExpect(status().isFound())
-                .andExpect(header().string(HttpHeaders.LOCATION, "https://example.com/articles/123"));
+                .andExpect(header().string(HttpHeaders.LOCATION, "https://example.com/articles/123"))
+                .andExpect(header().string("X-Content-Type-Options", "nosniff"))
+                .andExpect(header().string("X-Frame-Options", "SAMEORIGIN"));
     }
 
     @Test

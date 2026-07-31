@@ -133,6 +133,19 @@ The service and exception layers emit application logs for create, redirect, ana
 
 Current logging is plain Spring Boot logging. Structured JSON logs and request correlation IDs are deferred to production-readiness work.
 
+## Security Boundary
+
+Spring Security is the HTTP security boundary. Public GET endpoints remain unauthenticated because short URLs are bearer-style public resources in the current scope. The create endpoint is state-changing and requires CSRF protection.
+
+```text
+client
+  -> Spring Security filter chain
+  -> controller
+  -> service
+```
+
+The security configuration also enables CORS from application configuration and emits standard browser-facing security headers. Authentication and per-owner authorization are intentionally deferred until the application introduces users, ownership, or administrative operations.
+
 ## OpenAPI Documentation
 
 Springdoc generates OpenAPI documentation from controller and DTO annotations. This keeps executable API code and generated documentation aligned while avoiding a separate handwritten OpenAPI specification that can drift.

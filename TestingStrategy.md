@@ -91,8 +91,6 @@ Milestone 12 OpenAPI validation is primarily build and startup based:
 - Run existing regression tests to ensure annotations do not alter API behavior.
 - Document Swagger UI and OpenAPI JSON endpoints.
 
-Milestone 13 Docker was skipped by engineer decision.
-
 Milestone 14 adds focused unit tests for:
 
 - Shared short-code validation rules.
@@ -101,12 +99,17 @@ Milestone 14 adds focused unit tests for:
 - OpenAPI metadata configuration.
 - Application exception message contracts.
 
-Milestone 15 Integration Tests was skipped by engineer decision.
-
 Milestone 16 adds performance regression coverage for:
 
 - Repository-level atomic successful-access update.
 - Redirect service using repository update instead of entity-local analytics mutation.
 - Expired and inactive redirects not recording access.
 
-Milestone 17 Security Improvements was skipped by engineer decision.
+Milestone 18 adds security and operability regression coverage for:
+
+- CSRF rejection for `POST /api/v1/urls` without a token.
+- CSRF token retrieval from `GET /api/v1/security/csrf`.
+- Successful create flow with a valid CSRF token.
+- Public redirect behavior without CSRF.
+- Security headers on public responses.
+- Explicit denial for unrecognized endpoints.

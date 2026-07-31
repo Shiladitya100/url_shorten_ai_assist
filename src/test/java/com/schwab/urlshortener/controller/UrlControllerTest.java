@@ -3,6 +3,7 @@ package com.schwab.urlshortener.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schwab.urlshortener.dto.CreateShortUrlRequest;
 import com.schwab.urlshortener.dto.ShortUrlResponse;
 import com.schwab.urlshortener.dto.UrlAnalyticsResponse;
+import com.schwab.urlshortener.config.SecurityConfig;
 import com.schwab.urlshortener.exception.ShortCodeGenerationException;
 import com.schwab.urlshortener.exception.UrlMappingNotFoundException;
 import com.schwab.urlshortener.service.UrlShorteningService;
@@ -22,10 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(UrlController.class)
+@Import(SecurityConfig.class)
 class UrlControllerTest {
 
     @Autowired
@@ -54,6 +58,7 @@ class UrlControllerTest {
 
         mockMvc.perform(post("/api/v1/urls")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(header().string(HttpHeaders.LOCATION, "http://localhost:8080/AbC123x"))
@@ -71,6 +76,7 @@ class UrlControllerTest {
 
         mockMvc.perform(post("/api/v1/urls")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
@@ -89,6 +95,7 @@ class UrlControllerTest {
 
         mockMvc.perform(post("/api/v1/urls")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
@@ -140,6 +147,7 @@ class UrlControllerTest {
 
         mockMvc.perform(post("/api/v1/urls")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isServiceUnavailable())
                 .andExpect(jsonPath("$.status").value(503))
@@ -156,5 +164,15 @@ class UrlControllerTest {
                 .andExpect(jsonPath("$.error").value("Bad Request"))
                 .andExpect(jsonPath("$.message").value("Request validation failed"))
                 .andExpect(jsonPath("$.fieldErrors[0].message").value("shortCode must be a 7-character Base62 value"));
+    }
+
+    @Test
+    void shouldRejectCreateShortUrlWithoutCsrfToken() throws Exception {
+        CreateShortUrlRequest request = new CreateShortUrlRequest("https://example.com/articles/123", null);
+
+        mockMvc.perform(post("/api/v1/urls")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isForbidden());
     }
 }

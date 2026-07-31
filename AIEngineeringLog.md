@@ -695,3 +695,43 @@ Validation Results:
 - Static analysis is not configured yet.
 - No production code changed.
 - No secrets or credentials introduced.
+
+## Milestone 18: Security and Operability Improvements
+
+Prompt:
+
+- User provided an evaluation report, requested impact analysis and proposed file changes before implementation, then approved full implementation.
+
+Generated Code:
+
+- Added Spring Security configuration with CSRF protection for the create endpoint, public GET access for redirect/analytics, CORS configuration, and security headers.
+- Added `GET /api/v1/security/csrf` after manual curl testing showed create requests correctly returned `403 Forbidden` without a token.
+- Added explicit OpenAPI header documentation for `X-XSRF-TOKEN` on `POST /api/v1/urls`.
+- Added security-specific MockMvc regression tests.
+- Added Dockerfile, Docker Compose, `.dockerignore`, and GitHub Actions CI workflow.
+- Added assumptions/constraints traceability, runbook, and ADR documentation.
+- Updated README, architecture, API, engineering decisions, risk analysis, testing strategy, setup, release notes, validation, and AI traceability documentation.
+
+Engineer Decisions:
+
+- Implemented CSRF because the approved plan accepted the API behavior change for state-changing operations.
+- Did not add authentication/JWT because the current domain has no user, ownership, or admin model. Adding fake authentication would reduce design integrity.
+- Kept H2 for assignment/local use and documented production persistence limitations.
+
+Rejected Suggestions:
+
+- Did not introduce per-user authorization because no user ownership model exists.
+- Did not add CI deployment or artifact publishing because the user requested local implementation only and no git push.
+
+Validation Results:
+
+- `mvn clean install` passed.
+- Tests run: 50
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- Static analysis is not configured yet.
+- No secrets or credentials introduced.
+- Validation used Java 25.0.3 runtime with Java 21 release target.
+- Docker runtime validation was not executed because Docker CLI is not detected in the current shell.
+- Context-load testing now uses the `test` profile to avoid file-backed H2 lock conflicts when a local app instance is already running.
