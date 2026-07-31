@@ -17,6 +17,6 @@ Provide a baseline deployment and operability package:
 
 ## Consequences
 
-- Reviewers can reproduce build and runtime checks.
-- Docker deployment remains local/evaluation-grade because H2 is still the persistence engine.
+- Engineers can reproduce build and runtime checks.
+- Docker deployment remains local-development grade because H2 is still the persistence engine.
 - Production deployment would still require externalized durable database configuration.

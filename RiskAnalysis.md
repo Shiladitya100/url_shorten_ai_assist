@@ -29,7 +29,7 @@
 | Logs lack correlation IDs | Tracing a single request across components is harder | Add request correlation IDs in production-readiness work |
 | CSRF protection changes create API behavior | Existing clients that POST without a CSRF token receive `403 Forbidden` | Document token requirement and cover it with controller/security tests |
 | Public analytics expose destination URL to anyone with a short code | Short codes act as bearer resources | Add authentication and owner scoping if multi-user requirements are introduced |
-| Docker image still uses H2 | Containerized runtime is not production-durable across platform failures | Use Docker for evaluation/local repeatability; move to external database for production |
+| Docker image still uses H2 | Containerized runtime is not production-durable across platform failures | Use Docker for local repeatability; move to external database for production |
 | CI validates build/tests but not container build yet | Docker regressions may be missed by CI | Add Docker build job if CI runtime budget allows |
 
 ## Rollback Approach

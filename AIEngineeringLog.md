@@ -397,7 +397,7 @@ Rejected Suggestions:
 
 - Did not add a generic catch-all exception handler because hiding unexpected defects is risky at this stage.
 - Did not change success response contracts.
-- Did not introduce Problem Details yet because the assignment does not require RFC 7807 and the current DTO is simpler for evaluation.
+- Did not introduce Problem Details yet because the current API scope does not require RFC 7807 and the existing DTO is simpler for clients.
 
 Reason:
 
@@ -520,7 +520,7 @@ Rejected Suggestions:
 
 Reason:
 
-- Springdoc is already in the project dependencies. Code annotations provide evaluator-friendly Swagger documentation without expanding runtime behavior.
+- Springdoc is already in the project dependencies. Code annotations provide clear Swagger documentation without expanding runtime behavior.
 
 Validation Results:
 
@@ -675,7 +675,7 @@ Validation Results:
 
 Prompt:
 
-- User provided an evaluation report, requested impact analysis and proposed file changes before implementation, then approved full implementation.
+- User requested impact analysis and proposed file changes before implementation, then approved full implementation.
 
 Generated Code:
 

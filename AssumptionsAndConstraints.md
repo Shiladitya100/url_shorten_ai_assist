@@ -4,10 +4,10 @@
 
 | ID | Assumption | Impact | Validation |
 | --- | --- | --- | --- |
-| A-001 | The service is a single-tenant evaluation application, not a multi-user SaaS platform. | No owner model or per-user authorization is implemented. | Public create, redirect, and analytics APIs are documented explicitly. |
+| A-001 | The service is a single-tenant application, not a multi-user SaaS platform. | No owner model or per-user authorization is implemented. | Public create, redirect, and analytics APIs are documented explicitly. |
 | A-002 | Short URLs are public bearer-style resources. Anyone with a valid short code can redirect and read aggregate analytics. | Analytics are not treated as private user-owned data. | API docs and risk analysis call out this exposure. |
 | A-003 | Original URLs must use HTTPS. | HTTP and local-network URLs are rejected. | Bean Validation and controller tests enforce HTTPS-only input. |
-| A-004 | H2 is acceptable for local/evaluation persistence. | Production database concerns are deferred. | Flyway and repository boundaries keep migration to another database feasible. |
+| A-004 | H2 is acceptable for local development persistence. | Production database concerns are deferred. | Flyway and repository boundaries keep migration to another database feasible. |
 | A-005 | Aggregate analytics are sufficient for the assignment scope. | No per-click event table, referrer, IP, or user-agent tracking is stored. | Analytics tests cover aggregate counter behavior. |
 
 ## Constraints

@@ -15,7 +15,7 @@ This matches the assignment stack and provides a stable foundation for web APIs,
 Trade-offs:
 
 - Spring Boot accelerates implementation but introduces framework conventions that must be kept disciplined.
-- Maven is explicit and evaluation-friendly, but less concise than Gradle.
+- Maven is explicit and predictable, but less concise than Gradle.
 
 Alternatives considered:
 
@@ -411,9 +411,9 @@ Provide a Java 21 Dockerfile, Docker Compose configuration, GitHub Actions CI wo
 
 Rationale:
 
-Build and runtime repeatability are part of production-readiness evaluation. Concrete artifacts are more valuable than documentation-only claims.
+Build and runtime repeatability are part of production readiness. Concrete artifacts are more valuable than documentation-only claims.
 
 Trade-offs:
 
-- The Docker runtime still uses H2 and is suitable for evaluation/local operation, not durable production use.
+- The Docker runtime still uses H2 and is suitable for local operation, not durable production use.
 - CI runs Maven verification but does not yet publish artifacts or deploy.

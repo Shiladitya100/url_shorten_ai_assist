@@ -4,7 +4,7 @@ Status: Accepted
 
 ## Context
 
-The application exposes a public redirect endpoint and a state-changing create endpoint. The evaluation report identified CSRF coverage as an improvement area.
+The application exposes a public redirect endpoint and a state-changing create endpoint. CSRF coverage was identified as an improvement area.
 
 ## Decision
 
